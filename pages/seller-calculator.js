@@ -1,33 +1,86 @@
 import { useState, useEffect } from 'react';
-import styles from '../styles/SellerCalculator.module.css';
 import Link from 'next/link';
+import styles from '../styles/SellerCalculator.module.css';
+
+const calculateMonthlyMortgage = (loanAmount, annualInterestRate, loanTermYears) => {
+  const monthlyInterestRate = annualInterestRate / 100 / 12;
+  const numberOfPayments = loanTermYears * 12;
+  
+  const monthlyPayment = loanAmount * 
+    (monthlyInterestRate * Math.pow(1 + monthlyInterestRate, numberOfPayments)) / 
+    (Math.pow(1 + monthlyInterestRate, numberOfPayments) - 1);
+  
+  return monthlyPayment;
+};
 
 export default function SellerCalculator() {
   const [formData, setFormData] = useState({
     salePrice: 500000,
-    commissionRate: 6,
-    closingCosts: 2,
-    repairs: 0,
-    otherCosts: 0
+    agentCommission: 6,
+    titleAndEscrow: 2000,
+    transferTax: 1.1,
+    homeWarranty: 500,
+    preSaleRepairs: 5000,
+    stagingCosts: 2000,
+    professionalCleaning: 500,
+    photography: 500,
+    marketingCosts: 1000
+  });
+
+  const [results, setResults] = useState({
+    netProceeds: 0,
+    costsBreakdown: {
+      agentCommission: 0,
+      titleAndEscrow: 0,
+      transferTax: 0,
+      homeWarranty: 0,
+      preSaleRepairs: 0,
+      stagingCosts: 0,
+      professionalCleaning: 0,
+      photography: 0,
+      marketingCosts: 0,
+      totalSellingCosts: 0
+    }
   });
 
   useEffect(() => {
-    // Load saved values from localStorage
-    const savedValues = {
-      salePrice: localStorage.getItem('salePrice'),
-      commissionRate: localStorage.getItem('commissionRate'),
-      closingCosts: localStorage.getItem('closingCosts'),
-      repairs: localStorage.getItem('repairs'),
-      otherCosts: localStorage.getItem('otherCosts')
-    };
+    calculateResults();
+  }, [formData]);
 
-    // Update form data with saved values if they exist
-    if (savedValues.salePrice) setFormData(prev => ({ ...prev, salePrice: parseFloat(savedValues.salePrice) }));
-    if (savedValues.commissionRate) setFormData(prev => ({ ...prev, commissionRate: parseFloat(savedValues.commissionRate) }));
-    if (savedValues.closingCosts) setFormData(prev => ({ ...prev, closingCosts: parseFloat(savedValues.closingCosts) }));
-    if (savedValues.repairs) setFormData(prev => ({ ...prev, repairs: parseFloat(savedValues.repairs) }));
-    if (savedValues.otherCosts) setFormData(prev => ({ ...prev, otherCosts: parseFloat(savedValues.otherCosts) }));
-  }, []);
+  const calculateResults = () => {
+    // Calculate selling costs
+    const agentCommission = (formData.salePrice * formData.agentCommission) / 100;
+    const transferTax = (formData.salePrice * formData.transferTax) / 100;
+    const totalSellingCosts = 
+      agentCommission +
+      formData.titleAndEscrow +
+      transferTax +
+      formData.homeWarranty +
+      formData.preSaleRepairs +
+      formData.stagingCosts +
+      formData.professionalCleaning +
+      formData.photography +
+      formData.marketingCosts;
+
+    // Calculate net proceeds (before mortgage)
+    const netProceeds = formData.salePrice - totalSellingCosts;
+
+    setResults({
+      netProceeds,
+      costsBreakdown: {
+        agentCommission,
+        titleAndEscrow: formData.titleAndEscrow,
+        transferTax,
+        homeWarranty: formData.homeWarranty,
+        preSaleRepairs: formData.preSaleRepairs,
+        stagingCosts: formData.stagingCosts,
+        professionalCleaning: formData.professionalCleaning,
+        photography: formData.photography,
+        marketingCosts: formData.marketingCosts,
+        totalSellingCosts
+      }
+    });
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -37,25 +90,12 @@ export default function SellerCalculator() {
     }));
   };
 
-  // Save values to localStorage before navigating
-  const handleNavigate = () => {
-    Object.entries(formData).forEach(([key, value]) => {
-      localStorage.setItem(key, value.toString());
-    });
-  };
-
-  // Calculate all costs
-  const commission = formData.salePrice * (formData.commissionRate / 100);
-  const closingCosts = formData.salePrice * (formData.closingCosts / 100);
-  const totalCosts = commission + closingCosts + formData.repairs + formData.otherCosts;
-  const netProceeds = formData.salePrice - totalCosts;
-
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD',
       minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
+      maximumFractionDigits: 0
     }).format(amount);
   };
 
@@ -68,126 +108,204 @@ export default function SellerCalculator() {
         <div className={styles.step}>Step 4: Price Comparison</div>
       </div>
 
-      <h1 className={styles.title}>Step 1: Calculate Sale Proceeds</h1>
-      
-      <div className={styles.calculator}>
-        <div className={styles.sliderGroup}>
-          <label htmlFor="salePrice">
-            Sale Price: {formatCurrency(formData.salePrice)}
-          </label>
+      <h1 className={styles.title}>Calculate Your Sale Proceeds</h1>
+
+      <div className={styles.form}>
+        <div className={styles.inputGroup}>
+          <label>Sale Price</label>
           <input
             type="range"
-            id="salePrice"
             name="salePrice"
             min="100000"
             max="2000000"
             step="10000"
             value={formData.salePrice}
             onChange={handleChange}
-            className={styles.slider}
           />
+          <div className={styles.value}>{formatCurrency(formData.salePrice)}</div>
         </div>
 
-        <div className={styles.sliderGroup}>
-          <label htmlFor="commissionRate">
-            Commission Rate: {formData.commissionRate}%
-          </label>
+        <div className={styles.sectionTitle}>Selling Costs</div>
+        
+        <div className={styles.inputGroup}>
+          <label>Agent Commission (%)</label>
           <input
             type="range"
-            id="commissionRate"
-            name="commissionRate"
+            name="agentCommission"
             min="0"
             max="10"
-            step="0.5"
-            value={formData.commissionRate}
+            step="0.1"
+            value={formData.agentCommission}
             onChange={handleChange}
-            className={styles.slider}
           />
+          <div className={styles.value}>{formData.agentCommission}%</div>
         </div>
 
-        <div className={styles.sliderGroup}>
-          <label htmlFor="closingCosts">
-            Closing Costs: {formData.closingCosts}%
-          </label>
+        <div className={styles.inputGroup}>
+          <label>Title & Escrow</label>
           <input
             type="range"
-            id="closingCosts"
-            name="closingCosts"
+            name="titleAndEscrow"
             min="0"
-            max="5"
-            step="0.5"
-            value={formData.closingCosts}
+            max="5000"
+            step="100"
+            value={formData.titleAndEscrow}
             onChange={handleChange}
-            className={styles.slider}
           />
+          <div className={styles.value}>{formatCurrency(formData.titleAndEscrow)}</div>
         </div>
 
-        <div className={styles.sliderGroup}>
-          <label htmlFor="repairs">
-            Repairs & Improvements: {formatCurrency(formData.repairs)}
-          </label>
+        <div className={styles.inputGroup}>
+          <label>Transfer Tax (%)</label>
           <input
             type="range"
-            id="repairs"
-            name="repairs"
+            name="transferTax"
             min="0"
-            max="50000"
-            step="1000"
-            value={formData.repairs}
+            max="3"
+            step="0.1"
+            value={formData.transferTax}
             onChange={handleChange}
-            className={styles.slider}
           />
+          <div className={styles.value}>{formData.transferTax}%</div>
         </div>
 
-        <div className={styles.sliderGroup}>
-          <label htmlFor="otherCosts">
-            Other Costs: {formatCurrency(formData.otherCosts)}
-          </label>
+        <div className={styles.inputGroup}>
+          <label>Home Warranty</label>
           <input
             type="range"
-            id="otherCosts"
-            name="otherCosts"
+            name="homeWarranty"
             min="0"
-            max="50000"
-            step="1000"
-            value={formData.otherCosts}
+            max="2000"
+            step="100"
+            value={formData.homeWarranty}
             onChange={handleChange}
-            className={styles.slider}
           />
+          <div className={styles.value}>{formatCurrency(formData.homeWarranty)}</div>
         </div>
 
-        <div className={styles.results}>
-          <h2>Net Proceeds Breakdown</h2>
-          <div className={styles.resultGrid}>
-            <div className={styles.resultItem}>
-              <span className={styles.label}>Sale Price</span>
-              <span className={styles.value}>{formatCurrency(formData.salePrice)}</span>
-            </div>
-            <div className={styles.resultItem}>
-              <span className={styles.label}>Commission ({formData.commissionRate}%)</span>
-              <span className={styles.value}>{formatCurrency(commission)}</span>
-            </div>
-            <div className={styles.resultItem}>
-              <span className={styles.label}>Closing Costs ({formData.closingCosts}%)</span>
-              <span className={styles.value}>{formatCurrency(closingCosts)}</span>
-            </div>
-            <div className={styles.resultItem}>
-              <span className={styles.label}>Repairs & Improvements</span>
-              <span className={styles.value}>{formatCurrency(formData.repairs)}</span>
-            </div>
-            <div className={styles.resultItem}>
-              <span className={styles.label}>Other Costs</span>
-              <span className={styles.value}>{formatCurrency(formData.otherCosts)}</span>
-            </div>
-            <div className={`${styles.resultItem} ${styles.netProceeds}`}>
-              <span className={styles.label}>Net Proceeds</span>
-              <span className={styles.value}>{formatCurrency(netProceeds)}</span>
-            </div>
+        <div className={styles.inputGroup}>
+          <label>Pre-Sale Repairs</label>
+          <input
+            type="range"
+            name="preSaleRepairs"
+            min="0"
+            max="20000"
+            step="500"
+            value={formData.preSaleRepairs}
+            onChange={handleChange}
+          />
+          <div className={styles.value}>{formatCurrency(formData.preSaleRepairs)}</div>
+        </div>
+
+        <div className={styles.inputGroup}>
+          <label>Staging Costs</label>
+          <input
+            type="range"
+            name="stagingCosts"
+            min="0"
+            max="5000"
+            step="100"
+            value={formData.stagingCosts}
+            onChange={handleChange}
+          />
+          <div className={styles.value}>{formatCurrency(formData.stagingCosts)}</div>
+        </div>
+
+        <div className={styles.inputGroup}>
+          <label>Professional Cleaning</label>
+          <input
+            type="range"
+            name="professionalCleaning"
+            min="0"
+            max="1000"
+            step="50"
+            value={formData.professionalCleaning}
+            onChange={handleChange}
+          />
+          <div className={styles.value}>{formatCurrency(formData.professionalCleaning)}</div>
+        </div>
+
+        <div className={styles.inputGroup}>
+          <label>Photography</label>
+          <input
+            type="range"
+            name="photography"
+            min="0"
+            max="1000"
+            step="50"
+            value={formData.photography}
+            onChange={handleChange}
+          />
+          <div className={styles.value}>{formatCurrency(formData.photography)}</div>
+        </div>
+
+        <div className={styles.inputGroup}>
+          <label>Marketing Costs</label>
+          <input
+            type="range"
+            name="marketingCosts"
+            min="0"
+            max="3000"
+            step="100"
+            value={formData.marketingCosts}
+            onChange={handleChange}
+          />
+          <div className={styles.value}>{formatCurrency(formData.marketingCosts)}</div>
+        </div>
+      </div>
+
+      <div className={styles.results}>
+        <h2>Costs Breakdown</h2>
+        <div className={styles.breakdown}>
+          <div className={styles.breakdownItem}>
+            <span>Agent Commission</span>
+            <span>{formatCurrency(results.costsBreakdown.agentCommission)}</span>
+          </div>
+          <div className={styles.breakdownItem}>
+            <span>Title & Escrow</span>
+            <span>{formatCurrency(results.costsBreakdown.titleAndEscrow)}</span>
+          </div>
+          <div className={styles.breakdownItem}>
+            <span>Transfer Tax</span>
+            <span>{formatCurrency(results.costsBreakdown.transferTax)}</span>
+          </div>
+          <div className={styles.breakdownItem}>
+            <span>Home Warranty</span>
+            <span>{formatCurrency(results.costsBreakdown.homeWarranty)}</span>
+          </div>
+          <div className={styles.breakdownItem}>
+            <span>Pre-Sale Repairs</span>
+            <span>{formatCurrency(results.costsBreakdown.preSaleRepairs)}</span>
+          </div>
+          <div className={styles.breakdownItem}>
+            <span>Staging Costs</span>
+            <span>{formatCurrency(results.costsBreakdown.stagingCosts)}</span>
+          </div>
+          <div className={styles.breakdownItem}>
+            <span>Professional Cleaning</span>
+            <span>{formatCurrency(results.costsBreakdown.professionalCleaning)}</span>
+          </div>
+          <div className={styles.breakdownItem}>
+            <span>Photography</span>
+            <span>{formatCurrency(results.costsBreakdown.photography)}</span>
+          </div>
+          <div className={styles.breakdownItem}>
+            <span>Marketing Costs</span>
+            <span>{formatCurrency(results.costsBreakdown.marketingCosts)}</span>
+          </div>
+          <div className={`${styles.breakdownItem} ${styles.total}`}>
+            <span>Total Selling Costs</span>
+            <span>{formatCurrency(results.costsBreakdown.totalSellingCosts)}</span>
           </div>
         </div>
 
+        <h2>Net Proceeds (Before Mortgage)</h2>
+        <div className={styles.netProceeds}>
+          {formatCurrency(results.netProceeds)}
+        </div>
+
         <div className={styles.navigation}>
-          <Link href="/payoff-calculator" className={styles.nextButton} onClick={handleNavigate}>
+          <Link href="/payoff-calculator" className={styles.nextButton}>
             Next Step
           </Link>
         </div>
