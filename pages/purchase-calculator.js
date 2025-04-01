@@ -118,15 +118,6 @@ export default function PurchaseCalculator() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.stepIndicator}>
-        <div className={`${styles.step} ${styles.completed}`}>Step 1: Sale Proceeds</div>
-        <div className={`${styles.step} ${styles.completed}`}>Step 2: Payoff & Down Payment</div>
-        <div className={`${styles.step} ${styles.active}`}>Step 3: New Home Purchase</div>
-        <div className={styles.step}>Step 4: Price Comparison</div>
-      </div>
-
-      <h1 className={styles.title}>Step 3: Calculate New Home Purchase</h1>
-      
       <div className={styles.calculator}>
         <div className={styles.sliderGroup}>
           <label htmlFor="purchasePrice" title="The total price of the home you plan to purchase">
@@ -271,30 +262,26 @@ export default function PurchaseCalculator() {
           </div>
 
           <h2>Monthly Payment Breakdown</h2>
-          <div className={styles.resultGrid}>
-            <div className={styles.resultItem}>
-              <span className={styles.label}>Loan Amount</span>
-              <span className={styles.value}>{formatCurrency(loanAmount)}</span>
+          <div className={styles.breakdown}>
+            <div className={styles.breakdownItem}>
+              <span>Monthly Mortgage</span>
+              <span>{formatCurrency(monthlyMortgage)}</span>
             </div>
-            <div className={styles.resultItem}>
-              <span className={styles.label}>Monthly Mortgage</span>
-              <span className={styles.value}>{formatCurrency(monthlyMortgage)}</span>
+            <div className={styles.breakdownItem}>
+              <span>Monthly Property Tax</span>
+              <span>{formatCurrency(monthlyPropertyTax)}</span>
             </div>
-            <div className={styles.resultItem}>
-              <span className={styles.label}>Monthly Property Tax</span>
-              <span className={styles.value}>{formatCurrency(monthlyPropertyTax)}</span>
+            <div className={styles.breakdownItem}>
+              <span>Monthly Insurance</span>
+              <span>{formatCurrency(monthlyInsurance)}</span>
             </div>
-            <div className={styles.resultItem}>
-              <span className={styles.label}>Monthly HOA</span>
-              <span className={styles.value}>{formatCurrency(formData.hoaCost)}</span>
+            <div className={styles.breakdownItem}>
+              <span>Monthly HOA</span>
+              <span>{formatCurrency(formData.hoaCost)}</span>
             </div>
-            <div className={styles.resultItem}>
-              <span className={styles.label}>Monthly Insurance</span>
-              <span className={styles.value}>{formatCurrency(monthlyInsurance)}</span>
-            </div>
-            <div className={`${styles.resultItem} ${styles.netProceeds}`}>
-              <span className={styles.label}>Total Monthly Payment</span>
-              <span className={styles.value}>{formatCurrency(totalMonthlyPayment)}</span>
+            <div className={`${styles.breakdownItem} ${styles.total}`}>
+              <span>Total Monthly Payment</span>
+              <span>{formatCurrency(totalMonthlyPayment)}</span>
             </div>
           </div>
 
@@ -325,6 +312,13 @@ export default function PurchaseCalculator() {
               <span className={styles.value}>{formatCurrency(totalCost)}</span>
             </div>
           </div>
+        </div>
+
+        <div className={styles.stepIndicator}>
+          <div className={`${styles.step} ${styles.completed}`}>Step 1: Sale Proceeds</div>
+          <div className={`${styles.step} ${styles.completed}`}>Step 2: Payoff & Down Payment</div>
+          <div className={`${styles.step} ${styles.active}`}>Step 3: New Home Purchase</div>
+          <div className={styles.step}>Step 4: Price Comparison</div>
         </div>
 
         <div className={styles.navigation}>

@@ -71,15 +71,6 @@ export default function PayoffCalculator() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.stepIndicator}>
-        <div className={`${styles.step} ${styles.completed}`}>Step 1: Sale Proceeds</div>
-        <div className={`${styles.step} ${styles.active}`}>Step 2: Payoff & Down Payment</div>
-        <div className={styles.step}>Step 3: New Home Purchase</div>
-        <div className={styles.step}>Step 4: Price Comparison</div>
-      </div>
-
-      <h1 className={styles.title}>Step 2: Calculate Payoffs & Available Down Payment</h1>
-      
       <div className={styles.calculator}>
         <div className={styles.sliderGroup}>
           <label htmlFor="firstMortgage" title="Balance of your primary mortgage">
@@ -183,13 +174,27 @@ export default function PayoffCalculator() {
           </div>
         </div>
 
-        <div className={styles.navigation}>
-          <Link href="/seller-calculator" className={styles.prevButton} onClick={() => handleNavigate('prev')}>
-            Previous Step
-          </Link>
-          <Link href="/purchase-calculator" className={styles.nextButton} onClick={() => handleNavigate('next')}>
-            Next Step
-          </Link>
+        <div className={styles.results}>
+          <h2>Down Payment Available</h2>
+          <div className={styles.netProceeds}>
+            {formatCurrency(netProceeds)}
+          </div>
+
+          <div className={styles.stepIndicator}>
+            <div className={`${styles.step} ${styles.completed}`}>Step 1: Sale Proceeds</div>
+            <div className={`${styles.step} ${styles.active}`}>Step 2: Payoff & Down Payment</div>
+            <div className={styles.step}>Step 3: New Home Purchase</div>
+            <div className={styles.step}>Step 4: Price Comparison</div>
+          </div>
+
+          <div className={styles.navigation}>
+            <Link href="/seller-calculator" className={styles.prevButton}>
+              Previous Step
+            </Link>
+            <Link href="/purchase-calculator" className={styles.nextButton}>
+              Next Step
+            </Link>
+          </div>
         </div>
       </div>
     </div>

@@ -101,13 +101,6 @@ export default function SellerCalculator() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.stepIndicator}>
-        <div className={`${styles.step} ${styles.active}`}>Step 1: Sale Proceeds</div>
-        <div className={styles.step}>Step 2: Payoff & Down Payment</div>
-        <div className={styles.step}>Step 3: New Home Purchase</div>
-        <div className={styles.step}>Step 4: Price Comparison</div>
-      </div>
-
       <h1 className={styles.title}>Calculate Your Sale Proceeds</h1>
 
       <div className={styles.form}>
@@ -302,6 +295,13 @@ export default function SellerCalculator() {
         <h2>Net Proceeds (Before Mortgage)</h2>
         <div className={styles.netProceeds}>
           {formatCurrency(results.netProceeds)}
+        </div>
+
+        <div className={styles.stepIndicator}>
+          <div className={`${styles.step} ${styles.active}`}>Step 1: Sale Proceeds</div>
+          <div className={styles.step}>Step 2: Payoff & Down Payment</div>
+          <div className={styles.step}>Step 3: New Home Purchase</div>
+          <div className={styles.step}>Step 4: Price Comparison</div>
         </div>
 
         <div className={styles.navigation}>
