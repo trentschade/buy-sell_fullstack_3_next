@@ -80,6 +80,11 @@
   z-index: 1;
 }
 
+/* Right-justify the Purchase Price cell in the header */
+.comparisonTable th:first-child {
+  text-align: right;
+}
+
 /* Cell Colors */
 .sufficient {
   background-color: #c6f6d5;
@@ -184,6 +189,13 @@
 
 .slider::-moz-range-thumb:hover {
   background: #3182ce;
+}
+
+.infoText {
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  color: #718096;
+  font-style: italic;
 }
 
 .downPaymentAmount {

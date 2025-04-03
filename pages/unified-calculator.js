@@ -104,6 +104,18 @@ export default function UnifiedCalculator() {
         value: parseInt(value)
       }
     }));
+    
+    // If the payoff slider is changed and details are not expanded,
+    // update the first mortgage to match the new value
+    if (section === 'payoff' && !mainSliders.payoff.expanded) {
+      setPayoffDetails(prev => ({
+        ...prev,
+        firstMortgage: parseInt(value),
+        secondMortgage: 0,
+        heloc: 0,
+        otherPayments: 0
+      }));
+    }
   };
 
   // Handle confidence level changes
@@ -124,7 +136,22 @@ export default function UnifiedCalculator() {
         setSaleDetails(prev => ({ ...prev, [field]: parseFloat(value) }));
         break;
       case 'payoff':
-        setPayoffDetails(prev => ({ ...prev, [field]: parseFloat(value) }));
+        setPayoffDetails(prev => {
+          const updatedDetails = { ...prev, [field]: parseFloat(value) };
+          // Update the main payoff slider value based on the sum of all details
+          const totalPayoff = updatedDetails.firstMortgage + 
+                             updatedDetails.secondMortgage + 
+                             updatedDetails.heloc + 
+                             updatedDetails.otherPayments;
+          setMainSliders(prevSliders => ({
+            ...prevSliders,
+            payoff: {
+              ...prevSliders.payoff,
+              value: totalPayoff
+            }
+          }));
+          return updatedDetails;
+        });
         break;
       case 'purchase':
         setPurchaseDetails(prev => ({ ...prev, [field]: parseFloat(value) }));
@@ -138,6 +165,22 @@ export default function UnifiedCalculator() {
   const handleTargetPaymentChange = (e) => {
     setTargetMonthlyPayment(parseInt(e.target.value));
   };
+
+  // Initialize the main payoff slider value based on the sum of payoff details
+  useEffect(() => {
+    const totalPayoff = payoffDetails.firstMortgage + 
+                       payoffDetails.secondMortgage + 
+                       payoffDetails.heloc + 
+                       payoffDetails.otherPayments;
+    
+    setMainSliders(prev => ({
+      ...prev,
+      payoff: {
+        ...prev.payoff,
+        value: totalPayoff
+      }
+    }));
+  }, []);
 
   // Calculate results whenever any value changes
   useEffect(() => {
@@ -544,7 +587,13 @@ export default function UnifiedCalculator() {
               value={mainSliders.payoff.value}
               onChange={(e) => handleMainSliderChange('payoff', e.target.value)}
               className={styles.slider}
+              disabled={mainSliders.payoff.expanded}
             />
+            {mainSliders.payoff.expanded && (
+              <div className={styles.infoText}>
+                Total is calculated from the detailed payoff components below
+              </div>
+            )}
           </div>
           
           <button 
