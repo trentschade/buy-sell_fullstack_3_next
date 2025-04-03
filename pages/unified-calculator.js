@@ -22,6 +22,9 @@ export default function UnifiedCalculator() {
     }
   });
 
+  // Target monthly payment
+  const [targetMonthlyPayment, setTargetMonthlyPayment] = useState(3000);
+
   // Detailed state for each section (initially hidden)
   const [saleDetails, setSaleDetails] = useState({
     agentCommission: 6,
@@ -131,10 +134,15 @@ export default function UnifiedCalculator() {
     }
   };
 
+  // Handle target monthly payment change
+  const handleTargetPaymentChange = (e) => {
+    setTargetMonthlyPayment(parseInt(e.target.value));
+  };
+
   // Calculate results whenever any value changes
   useEffect(() => {
     calculateResults();
-  }, [mainSliders, saleDetails, payoffDetails, purchaseDetails, tableConfig]);
+  }, [mainSliders, saleDetails, payoffDetails, purchaseDetails, tableConfig, targetMonthlyPayment]);
 
   // Calculate all results
   const calculateResults = () => {
@@ -242,14 +250,15 @@ export default function UnifiedCalculator() {
 
   // Get cell class based on monthly payment
   const getCellClass = (payment) => {
-    if (payment > 5000) return styles.insufficient;
-    if (payment > 3000) return styles.warning;
+    if (payment > targetMonthlyPayment * 1.1) return styles.insufficient;
+    if (payment > targetMonthlyPayment) return styles.warning;
     return styles.sufficient;
   };
 
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Buy-Sell Calculator</h1>
+      
       
       {/* Monthly Payment Table */}
       <div className={styles.tableSection}>
@@ -295,16 +304,35 @@ export default function UnifiedCalculator() {
         <div className={styles.legend}>
           <div className={styles.legendItem}>
             <div className={`${styles.legendColor} ${styles.sufficient}`}></div>
-            <span>Sufficient</span>
+            <span>Sufficient (≤ {formatCurrency(targetMonthlyPayment)})</span>
           </div>
           <div className={styles.legendItem}>
             <div className={`${styles.legendColor} ${styles.warning}`}></div>
-            <span>Warning</span>
+            <span>Warning (≤ {formatCurrency(targetMonthlyPayment * 1.1)})</span>
           </div>
           <div className={styles.legendItem}>
             <div className={`${styles.legendColor} ${styles.insufficient}`}></div>
-            <span>Insufficient</span>
+            <span>Insufficient (&gt; {formatCurrency(targetMonthlyPayment * 1.1)})</span>
           </div>
+        </div>
+      </div>
+      {/* Target Monthly Payment Input */}
+      <div className={styles.targetPaymentSection}>
+        <h2>Target Monthly Payment</h2>
+        <div className={styles.sliderGroup}>
+          <label>
+            <span>Your Target Monthly Payment</span>
+            <span>{formatCurrency(targetMonthlyPayment)}</span>
+          </label>
+          <input
+            type="range"
+            min="1000"
+            max="10000"
+            step="100"
+            value={targetMonthlyPayment}
+            onChange={handleTargetPaymentChange}
+            className={styles.slider}
+          />
         </div>
       </div>
       
