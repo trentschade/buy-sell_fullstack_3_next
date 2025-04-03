@@ -1,14 +1,14 @@
 .dashboard {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: white;
-  padding: 1rem;
-  border-bottom: 1px solid #e2e8f0;
-  display: flex;
-  gap: 2rem;
-  align-items: flex-start;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 300px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  z-index: 1000;
+  font-family: 'Roboto', sans-serif;
 }
 
 .tableThumbnail {

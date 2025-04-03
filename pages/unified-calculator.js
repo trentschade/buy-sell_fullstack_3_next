@@ -680,6 +680,15 @@ export default function UnifiedCalculator() {
                   onChange={(e) => handleDetailChange('purchase', 'downPayment', e.target.value)}
                   className={styles.slider}
                 />
+                <div className={styles.downPaymentAmount}>
+                  Down Payment Amount: {formatCurrency(mainSliders.purchase.value * (purchaseDetails.downPayment / 100))}
+                  <br />
+                  Cash Available: {formatCurrency(results.netAtClosing)}
+                  {results.netAtClosing < (mainSliders.purchase.value * (purchaseDetails.downPayment / 100)) ? 
+                    <span className={styles.warningText}> (Insufficient for down payment)</span> : 
+                    <span className={styles.sufficientText}> (Sufficient for down payment)</span>
+                  }
+                </div>
               </div>
               
               <div className={styles.sliderGroup}>
