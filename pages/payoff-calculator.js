@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import styles from '../styles/SellerCalculator.module.css';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import FloatingDashboard from '../components/FloatingDashboard';
 
 export default function PayoffCalculator() {
   const router = useRouter();
@@ -12,8 +13,60 @@ export default function PayoffCalculator() {
     otherPayments: 0
   });
 
+  const [previousData, setPreviousData] = useState({
+    salePrice: 500000,
+    commissionRate: 6,
+    closingCosts: 2000,
+    repairs: 5000,
+    otherCosts: 4500,
+    firstMortgage: 0,
+    secondMortgage: 0,
+    heloc: 0,
+    otherPayments: 0,
+    purchasePrice: 600000,
+    downPayment: 20,
+    interestRate: 6.5,
+    loanTerm: 30,
+    propertyTaxRate: 1.5,
+    hoaCost: 0,
+    insuranceCost: 2000
+  });
+
   // Get net proceeds from step 1 (default to 0 if not set)
   const [netProceeds, setNetProceeds] = useState(0);
+
+  useEffect(() => {
+    // Load previous data from localStorage
+    const loadPreviousData = () => {
+      const storedData = {
+        salePrice: localStorage.getItem('salePrice'),
+        commissionRate: localStorage.getItem('agentCommission'),
+        closingCosts: localStorage.getItem('titleAndEscrow'),
+        repairs: localStorage.getItem('preSaleRepairs'),
+        otherCosts: localStorage.getItem('otherCosts'),
+        firstMortgage: localStorage.getItem('firstMortgage'),
+        secondMortgage: localStorage.getItem('secondMortgage'),
+        heloc: localStorage.getItem('heloc'),
+        otherPayments: localStorage.getItem('otherPayments'),
+        purchasePrice: localStorage.getItem('purchasePrice'),
+        downPayment: localStorage.getItem('downPayment'),
+        interestRate: localStorage.getItem('interestRate'),
+        loanTerm: localStorage.getItem('loanTerm'),
+        propertyTaxRate: localStorage.getItem('propertyTaxRate'),
+        hoaCost: localStorage.getItem('hoaCost'),
+        insuranceCost: localStorage.getItem('insuranceCost')
+      };
+
+      const parsedData = {};
+      Object.entries(storedData).forEach(([key, value]) => {
+        parsedData[key] = value ? parseFloat(value) : previousData[key];
+      });
+
+      setPreviousData(parsedData);
+    };
+
+    loadPreviousData();
+  }, []);
 
   useEffect(() => {
     // Get net proceeds from localStorage (set in step 1)
@@ -71,6 +124,7 @@ export default function PayoffCalculator() {
 
   return (
     <div className={styles.container}>
+      <FloatingDashboard formData={formData} previousData={previousData} />
       <div className={styles.calculator}>
         <div className={styles.sliderGroup}>
           <label htmlFor="firstMortgage" title="Balance of your primary mortgage">

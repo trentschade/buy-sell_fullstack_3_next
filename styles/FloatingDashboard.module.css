@@ -1,0 +1,94 @@
+.dashboard {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: white;
+  padding: 1rem;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tableThumbnail {
+  flex: 1;
+  min-width: 300px;
+}
+
+.tableLabel {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #64748b;
+  margin-bottom: 0.5rem;
+}
+
+.tableContainer {
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.tableContainer table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tableContainer td {
+  padding: 0.5rem;
+  text-align: center;
+  font-size: 0.75rem;
+  border: 1px solid #e2e8f0;
+}
+
+.sufficient {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.warning {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.histogram {
+  flex: 1;
+  min-width: 200px;
+}
+
+.histogramLabel {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #64748b;
+  margin-bottom: 0.5rem;
+}
+
+.histogramBars {
+  display: flex;
+  align-items: flex-end;
+  height: 100px;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+}
+
+.barContainer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.bar {
+  width: 100%;
+  min-height: 1px;
+  transition: height 0.3s ease;
+  border-radius: 2px;
+}
+
+.barLabel {
+  font-size: 0.75rem;
+  color: #64748b;
+} 

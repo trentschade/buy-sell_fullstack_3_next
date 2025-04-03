@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import styles from '../styles/SellerCalculator.module.css';
+import FloatingDashboard from '../components/FloatingDashboard';
 
 const calculateMonthlyMortgage = (loanAmount, annualInterestRate, loanTermYears) => {
   const monthlyInterestRate = annualInterestRate / 100 / 12;
@@ -27,6 +28,25 @@ export default function SellerCalculator() {
     marketingCosts: 1000
   });
 
+  const [previousData, setPreviousData] = useState({
+    salePrice: 500000,
+    commissionRate: 6,
+    closingCosts: 2000,
+    repairs: 5000,
+    otherCosts: 4500,
+    firstMortgage: 0,
+    secondMortgage: 0,
+    heloc: 0,
+    otherPayments: 0,
+    purchasePrice: 600000,
+    downPayment: 20,
+    interestRate: 6.5,
+    loanTerm: 30,
+    propertyTaxRate: 1.5,
+    hoaCost: 0,
+    insuranceCost: 2000
+  });
+
   const [results, setResults] = useState({
     netProceeds: 0,
     costsBreakdown: {
@@ -42,6 +62,39 @@ export default function SellerCalculator() {
       totalSellingCosts: 0
     }
   });
+
+  useEffect(() => {
+    // Load previous data from localStorage
+    const loadPreviousData = () => {
+      const storedData = {
+        salePrice: localStorage.getItem('salePrice'),
+        commissionRate: localStorage.getItem('agentCommission'),
+        closingCosts: localStorage.getItem('titleAndEscrow'),
+        repairs: localStorage.getItem('preSaleRepairs'),
+        otherCosts: localStorage.getItem('otherCosts'),
+        firstMortgage: localStorage.getItem('firstMortgage'),
+        secondMortgage: localStorage.getItem('secondMortgage'),
+        heloc: localStorage.getItem('heloc'),
+        otherPayments: localStorage.getItem('otherPayments'),
+        purchasePrice: localStorage.getItem('purchasePrice'),
+        downPayment: localStorage.getItem('downPayment'),
+        interestRate: localStorage.getItem('interestRate'),
+        loanTerm: localStorage.getItem('loanTerm'),
+        propertyTaxRate: localStorage.getItem('propertyTaxRate'),
+        hoaCost: localStorage.getItem('hoaCost'),
+        insuranceCost: localStorage.getItem('insuranceCost')
+      };
+
+      const parsedData = {};
+      Object.entries(storedData).forEach(([key, value]) => {
+        parsedData[key] = value ? parseFloat(value) : previousData[key];
+      });
+
+      setPreviousData(parsedData);
+    };
+
+    loadPreviousData();
+  }, []);
 
   useEffect(() => {
     calculateResults();
@@ -101,6 +154,7 @@ export default function SellerCalculator() {
 
   return (
     <div className={styles.container}>
+      <FloatingDashboard formData={formData} previousData={previousData} />
       <h1 className={styles.title}>Calculate Your Sale Proceeds</h1>
 
       <div className={styles.form}>

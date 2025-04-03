@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import styles from '../styles/SellerCalculator.module.css';
 import Link from 'next/link';
+import FloatingDashboard from '../components/FloatingDashboard';
 
 export default function PurchaseCalculator() {
   const [formData, setFormData] = useState({
@@ -13,8 +14,60 @@ export default function PurchaseCalculator() {
     insuranceCost: 2000
   });
 
+  const [previousData, setPreviousData] = useState({
+    salePrice: 500000,
+    commissionRate: 6,
+    closingCosts: 2000,
+    repairs: 5000,
+    otherCosts: 4500,
+    firstMortgage: 0,
+    secondMortgage: 0,
+    heloc: 0,
+    otherPayments: 0,
+    purchasePrice: 600000,
+    downPayment: 20,
+    interestRate: 6.5,
+    loanTerm: 30,
+    propertyTaxRate: 1.5,
+    hoaCost: 0,
+    insuranceCost: 2000
+  });
+
   // Get net amount at closing from step 2
   const [netAtClosing, setNetAtClosing] = useState(0);
+
+  useEffect(() => {
+    // Load previous data from localStorage
+    const loadPreviousData = () => {
+      const storedData = {
+        salePrice: localStorage.getItem('salePrice'),
+        commissionRate: localStorage.getItem('agentCommission'),
+        closingCosts: localStorage.getItem('titleAndEscrow'),
+        repairs: localStorage.getItem('preSaleRepairs'),
+        otherCosts: localStorage.getItem('otherCosts'),
+        firstMortgage: localStorage.getItem('firstMortgage'),
+        secondMortgage: localStorage.getItem('secondMortgage'),
+        heloc: localStorage.getItem('heloc'),
+        otherPayments: localStorage.getItem('otherPayments'),
+        purchasePrice: localStorage.getItem('purchasePrice'),
+        downPayment: localStorage.getItem('downPayment'),
+        interestRate: localStorage.getItem('interestRate'),
+        loanTerm: localStorage.getItem('loanTerm'),
+        propertyTaxRate: localStorage.getItem('propertyTaxRate'),
+        hoaCost: localStorage.getItem('hoaCost'),
+        insuranceCost: localStorage.getItem('insuranceCost')
+      };
+
+      const parsedData = {};
+      Object.entries(storedData).forEach(([key, value]) => {
+        parsedData[key] = value ? parseFloat(value) : previousData[key];
+      });
+
+      setPreviousData(parsedData);
+    };
+
+    loadPreviousData();
+  }, []);
 
   useEffect(() => {
     // Get net amount at closing from localStorage (set in step 2)
@@ -118,6 +171,7 @@ export default function PurchaseCalculator() {
 
   return (
     <div className={styles.container}>
+      <FloatingDashboard formData={formData} previousData={previousData} />
       <div className={styles.calculator}>
         <div className={styles.sliderGroup}>
           <label htmlFor="purchasePrice" title="The total price of the home you plan to purchase">
@@ -239,6 +293,7 @@ export default function PurchaseCalculator() {
         </div>
 
         <div className={styles.results}>
+          <h1 className={styles.title}>Step 3: Calculate Your New Home Purchase</h1>
           <h2>Down Payment Analysis</h2>
           <div className={styles.resultGrid}>
             <div className={styles.resultItem}>
