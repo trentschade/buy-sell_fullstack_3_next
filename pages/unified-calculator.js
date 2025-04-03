@@ -300,7 +300,7 @@ export default function UnifiedCalculator() {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Buy-Sell Calculator</h1>
+      <h1 className={styles.title}>Buy and Sell Decision Matrix</h1>
       
       
       {/* Monthly Payment Table */}

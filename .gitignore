@@ -6,6 +6,9 @@
 # testing
 /coverage
 
+# media
+/media
+
 # next.js
 /.next/
 /out/
