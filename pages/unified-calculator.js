@@ -612,8 +612,8 @@ export default function UnifiedCalculator() {
                 <input
                   type="range"
                   min="0"
-                  max="50000"
-                  step="1000"
+                  max="300000"
+                  step="10000"
                   value={payoffDetails.otherPayments}
                   onChange={(e) => handleDetailChange('payoff', 'otherPayments', e.target.value)}
                   className={styles.slider}
