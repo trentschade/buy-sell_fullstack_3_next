@@ -8,7 +8,8 @@ import TargetPaymentSection from '../components/calculator/TargetPaymentSection'
 import MonthlyPaymentMatrix from '../components/calculator/MonthlyPaymentMatrix';
 import FloatingDashboard from '../components/calculator/FloatingDashboard';
 import ResultsSection from '../components/calculator/ResultsSection';
-import styles from '../styles/UnifiedCalculator.module.css';
+import { formatCurrency } from '../utils/formatters';
+import styles from '../styles/OriginalUnifiedCalculator.module.css';
 
 /**
  * UnifiedCalculator component
@@ -81,11 +82,13 @@ const UnifiedCalculator = () => {
             onTargetPaymentChange={handleTargetPaymentChange}
           />
 
+        </div>
+        <div>
           <MonthlyPaymentMatrix
-            tableData={results.tableData}
-            tableConfig={tableConfig}
-            targetMonthlyPayment={targetMonthlyPayment}
-          />
+              tableData={results.tableData}
+              tableConfig={tableConfig}
+              targetMonthlyPayment={targetMonthlyPayment}
+            />
         </div>
 
         <div className={styles.resultsSection}>
