@@ -1,0 +1,46 @@
+.confidenceContainer {
+  margin-top: 1rem;
+}
+
+.confidenceLabel {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  color: #64748b;
+}
+
+.confidenceButtons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.confidenceButton {
+  flex: 1;
+  padding: 0.5rem;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  color: #64748b;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.confidenceButton:hover {
+  background-color: #f1f5f9;
+  color: #475569;
+}
+
+.confidenceButton.active {
+  background-color: #3b82f6;
+  border-color: #3b82f6;
+  color: white;
+}
+
+/* Responsive styles */
+@media (max-width: 480px) {
+  .confidenceButtons {
+    flex-direction: column;
+  }
+} 
