@@ -18,7 +18,7 @@ const TargetPaymentSection = ({
     <div className={styles.targetPaymentSection}>
       <div className={styles.sliderGroup}>
         <div className={styles.sliderLabel}>
-          <span>Target Monthly Payment</span>
+          <span>Monthly Payment Target</span>
           <span className={styles.sliderValue}>{formatCurrency(targetMonthlyPayment)}</span>
         </div>
         <input
