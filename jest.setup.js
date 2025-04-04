@@ -7,11 +7,19 @@ jest.mock('next/router', () => ({
     return {
       route: '/',
       pathname: '',
-      query: '',
+      query: {},
       asPath: '',
       push: jest.fn(),
       replace: jest.fn(),
     };
+  },
+}));
+
+// Mock next/image
+jest.mock('next/image', () => ({
+  __esModule: true,
+  default: ({ src, alt, ...props }) => {
+    return <img src={src} alt={alt} {...props} />;
   },
 }));
 
