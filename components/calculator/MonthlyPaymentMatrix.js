@@ -4,7 +4,7 @@ import { formatCurrency } from '../../utils/formatters';
 
 /**
  * Monthly payment matrix component that displays a grid of monthly payments
- * based on different purchase prices and down payment percentages
+ * based on different sale prices and purchase prices
  * @param {Object} props - Component properties
  * @param {Array} props.tableData - 2D array of calculation results
  * @param {Object} props.tableConfig - Configuration for the table
@@ -43,15 +43,19 @@ const MonthlyPaymentMatrix = ({
     return 600000 + offset; // Base price of 600,000
   });
 
-  // Generate down payment percentages for rows
-  const downPayments = [5, 10, 15, 20, 25, 30];
+  // Generate sale prices for rows
+  const salePrices = Array.from({ length: saleRange }, (_, i) => {
+    const middleIndex = Math.floor(saleRange / 2);
+    const offset = (i - middleIndex) * saleStep;
+    return 500000 + offset; // Base price of 500,000
+  });
 
   return (
     <div className={styles.matrixSection}>
       <h2>Monthly Payment Matrix</h2>
       <div className={styles.matrixContainer} role="table" aria-label="Monthly Payment Matrix">
         <div className={styles.matrixHeader} role="row">
-          <div className={styles.headerCell} role="columnheader">Down Payment %</div>
+          <div className={styles.headerCell} role="columnheader">Sale Price</div>
           {purchasePrices.map((price) => (
             <div key={price} className={styles.headerCell} role="columnheader">
               {formatCurrency(price)}
@@ -59,14 +63,14 @@ const MonthlyPaymentMatrix = ({
           ))}
         </div>
         
-        {downPayments.map((downPayment) => (
-          <div key={downPayment} className={styles.matrixRow} role="row">
-            <div className={styles.rowHeader} role="rowheader">{downPayment}%</div>
-            {purchasePrices.map((price) => {
-              const key = `${price}-${downPayment}`;
+        {salePrices.map((salePrice) => (
+          <div key={salePrice} className={styles.matrixRow} role="row">
+            <div className={styles.rowHeader} role="rowheader">{formatCurrency(salePrice)}</div>
+            {purchasePrices.map((purchasePrice) => {
+              const key = `${salePrice}-${purchasePrice}`;
               // Find the corresponding calculation in tableData
               const calculation = tableData.find(row => 
-                row.some(cell => cell.purchasePrice === price && cell.downPayment === downPayment)
+                row.some(cell => cell.salePrice === salePrice && cell.purchasePrice === purchasePrice)
               )?.[0] || { totalMonthlyPayment: 0 };
               
               return (
