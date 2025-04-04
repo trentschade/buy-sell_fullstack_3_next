@@ -65,15 +65,13 @@ const MonthlyPaymentMatrix = ({
           ))}
         </div>
         
-        {salePrices.map((salePrice) => (
+        {salePrices.map((salePrice, saleIndex) => (
           <div key={salePrice} className={styles.matrixRow} role="row">
             <div className={styles.rowHeader} role="rowheader">{formatCurrency(salePrice)}</div>
-            {purchasePrices.map((purchasePrice) => {
+            {purchasePrices.map((purchasePrice, purchaseIndex) => {
               const key = `${salePrice}-${purchasePrice}`;
-              // Find the corresponding calculation in tableData
-              const calculation = tableData.find(row => 
-                row.some(cell => cell.salePrice === salePrice && cell.purchasePrice === purchasePrice)
-              )?.[0] || { totalMonthlyPayment: 0 };
+              // Access the calculation directly using indices
+              const calculation = tableData[saleIndex]?.[purchaseIndex] || { totalMonthlyPayment: 0 };
               
               return (
                 <div 

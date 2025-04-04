@@ -68,11 +68,11 @@ export const calculateNetAtClosing = (netProceeds, payoffAmount) => {
 /**
  * Calculate loan amount based on purchase price and down payment percentage
  * @param {number} purchasePrice - Purchase price
- * @param {number} downPaymentPercent - Down payment percentage
+ * @param {number} downPayment - Down payment percentage
  * @returns {number} - Loan amount
  */
-export const calculateLoanAmount = (purchasePrice, downPaymentPercent) => {
-  const downPaymentAmount = (purchasePrice * downPaymentPercent) / 100;
+export const calculateLoanAmount = (purchasePrice, downPayment) => {
+  const downPaymentAmount = (purchasePrice * downPayment) / 100;
   return purchasePrice - downPaymentAmount;
 };
 
@@ -207,14 +207,17 @@ export const calculateTableData = (
 ) => {
   return salePrices.map(salePrice => {
     return purchasePrices.map(purchasePrice => {
+      // Calculate total selling costs
+      const totalSellingCosts = calculateTotalSellingCosts(saleDetails, salePrice);
+      
       // Calculate net proceeds
-      const netProceeds = calculateNetProceeds(salePrice, saleDetails);
+      const netProceeds = salePrice - totalSellingCosts;
       
       // Calculate net at closing
       const netAtClosing = calculateNetAtClosing(netProceeds, payoffDetails.firstMortgage);
       
       // Calculate loan amount
-      const loanAmount = calculateLoanAmount(purchasePrice, purchaseDetails.downPaymentPercentage);
+      const loanAmount = calculateLoanAmount(purchasePrice, purchaseDetails.downPayment);
       
       // Calculate monthly mortgage
       const monthlyMortgage = calculateMonthlyMortgage(
@@ -233,12 +236,7 @@ export const calculateTableData = (
       const monthlyHOA = purchaseDetails.hoaCost;
       
       // Calculate total monthly payment
-      const totalMonthlyPayment = calculateTotalMonthlyPayment(
-        monthlyMortgage, 
-        monthlyPropertyTax * 12, 
-        purchaseDetails.insuranceCost, 
-        monthlyHOA
-      );
+      const totalMonthlyPayment = monthlyMortgage + monthlyPropertyTax + monthlyInsurance + monthlyHOA;
       
       return {
         salePrice,
