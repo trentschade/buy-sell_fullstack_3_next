@@ -10,7 +10,7 @@ import ExpandableSection from '../ui/ExpandableSection';
  * @param {Object} props.payoffDetails - Object containing payoff details
  * @param {Function} props.onMainSliderChange - Function to handle main slider changes
  * @param {Function} props.onDetailChange - Function to handle detail changes
- * @param {Function} props.toggleExpanded - Function to toggle expanded view
+ * @param {Function} props.onToggleExpanded - Function to toggle expanded view
  * @returns {JSX.Element} - Payoff section component
  */
 const PayoffSection = ({ 
@@ -18,7 +18,7 @@ const PayoffSection = ({
   payoffDetails, 
   onMainSliderChange, 
   onDetailChange, 
-  toggleExpanded 
+  onToggleExpanded 
 }) => {
   return (
     <div className={styles.sliderSection}>
@@ -37,7 +37,7 @@ const PayoffSection = ({
       <ExpandableSection 
         title="Detailed Payoff"
         isExpanded={mainSliders.payoff.expanded}
-        onToggle={() => toggleExpanded('payoff')}
+        onToggle={() => onToggleExpanded('payoff')}
       >
         <Slider 
           label="First Mortgage"

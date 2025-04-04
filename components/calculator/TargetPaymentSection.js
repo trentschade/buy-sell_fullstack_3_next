@@ -9,9 +9,6 @@ import ExpandableSection from '../ui/ExpandableSection';
  * @param {number} props.targetMonthlyPayment - Target monthly payment value
  * @param {Function} props.onTargetPaymentChange - Function to handle target payment changes
  * @param {Object} props.targetPaymentDetails - Object containing target payment details
- * @param {Function} props.handleMainSliderChange - Function to handle main slider changes
- * @param {Function} props.handleDetailChange - Function to handle detail changes
- * @param {Function} props.toggleExpanded - Function to toggle expanded view
  * @returns {JSX.Element} - Target payment section component
  */
 const TargetPaymentSection = ({ 
@@ -23,11 +20,7 @@ const TargetPaymentSection = ({
     targetInsurance: 100,
     targetHOA: 300
   },
-  handleMainSliderChange, 
-  handleDetailChange, 
-  toggleExpanded 
 }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
 
   return (
     <div className={styles.sliderSection}>
@@ -40,48 +33,6 @@ const TargetPaymentSection = ({
         step={100}
         onChange={onTargetPaymentChange}
       />
-      
-      <ExpandableSection 
-        title="Payment Details"
-        isExpanded={isExpanded}
-        onToggle={() => setIsExpanded(!isExpanded)}
-      >
-        <Slider 
-          label="Target Mortgage Payment"
-          value={targetPaymentDetails.targetMortgage}
-          min={0}
-          max={8000}
-          step={100}
-          onChange={(e) => handleDetailChange?.('targetPayment', 'targetMortgage', e.target.value)}
-        />
-        
-        <Slider 
-          label="Target Property Tax"
-          value={targetPaymentDetails.targetPropertyTax}
-          min={0}
-          max={1000}
-          step={50}
-          onChange={(e) => handleDetailChange?.('targetPayment', 'targetPropertyTax', e.target.value)}
-        />
-        
-        <Slider 
-          label="Target Insurance"
-          value={targetPaymentDetails.targetInsurance}
-          min={0}
-          max={500}
-          step={25}
-          onChange={(e) => handleDetailChange?.('targetPayment', 'targetInsurance', e.target.value)}
-        />
-        
-        <Slider 
-          label="Target HOA"
-          value={targetPaymentDetails.targetHOA}
-          min={0}
-          max={500}
-          step={25}
-          onChange={(e) => handleDetailChange?.('targetPayment', 'targetHOA', e.target.value)}
-        />
-      </ExpandableSection>
     </div>
   );
 };

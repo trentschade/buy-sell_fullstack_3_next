@@ -13,7 +13,7 @@ import ExpandableSection from '../ui/ExpandableSection';
  * @param {Function} props.onMainSliderChange - Function to handle main slider changes
  * @param {Function} props.onConfidenceChange - Function to handle confidence level changes
  * @param {Function} props.onDetailChange - Function to handle detail changes
- * @param {Function} props.toggleExpanded - Function to toggle expanded view
+ * @param {Function} props.onToggleExpanded - Function to toggle expanded view
  * @returns {JSX.Element} - Purchase section component
  */
 const PurchaseSection = ({ 
@@ -23,7 +23,7 @@ const PurchaseSection = ({
   onMainSliderChange, 
   onConfidenceChange, 
   onDetailChange, 
-  toggleExpanded 
+  onToggleExpanded 
 }) => {
   return (
     <div className={styles.sliderSection}>
@@ -46,7 +46,7 @@ const PurchaseSection = ({
       <ExpandableSection 
         title="Purchase Details"
         isExpanded={mainSliders.purchase.expanded}
-        onToggle={() => toggleExpanded('purchase')}
+        onToggle={() => onToggleExpanded('purchase')}
       >
         <Slider 
           label="Down Payment"
