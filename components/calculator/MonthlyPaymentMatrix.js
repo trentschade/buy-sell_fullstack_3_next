@@ -56,6 +56,7 @@ const MonthlyPaymentMatrix = ({
         {/* Purchase Price header row */}
         <div className={styles.matrixHeader} role="row">
           <div className={styles.headerCell} role="columnheader"></div>
+          <div className={styles.headerCell} role="columnheader"></div>
           <div className={`${styles.headerCell} ${styles.mergedHeader}`} role="columnheader" aria-colspan="5">
             Purchase Price
           </div>
@@ -63,7 +64,8 @@ const MonthlyPaymentMatrix = ({
 
         {/* Price values row */}
         <div className={styles.matrixHeader} role="row">
-          <div className={styles.headerCell} role="columnheader">Sale Price</div>
+          <div className={styles.headerCell} role="columnheader"></div>
+          <div className={styles.headerCell} role="columnheader"></div>
           {purchasePrices.map((price) => (
             <div key={price} className={styles.headerCell} role="columnheader">
               {formatCurrency(price)}
@@ -71,26 +73,31 @@ const MonthlyPaymentMatrix = ({
           ))}
         </div>
         
-        {salePrices.map((salePrice, saleIndex) => (
-          <div key={salePrice} className={styles.matrixRow} role="row">
-            <div className={styles.rowHeader} role="rowheader">{formatCurrency(salePrice)}</div>
-            {purchasePrices.map((purchasePrice, purchaseIndex) => {
-              const key = `${salePrice}-${purchasePrice}`;
-              // Access the calculation directly using indices
-              const calculation = tableData[saleIndex]?.[purchaseIndex] || { totalMonthlyPayment: 0 };
-              
-              return (
-                <div 
-                  key={key} 
-                  className={`${styles.matrixCell} ${getCellClass(calculation.totalMonthlyPayment)}`}
-                  role="cell"
-                >
-                  {formatCurrency(calculation.totalMonthlyPayment)}
-                </div>
-              );
-            })}
+        {/* Vertical Sale Price cell and data rows */}
+        <div className={styles.matrixRow} role="row">
+          <div className={`${styles.headerCell} ${styles.verticalHeader}`} role="rowheader">
+            Sale Price
           </div>
-        ))}
+          {salePrices.map((salePrice, saleIndex) => (
+            <div key={salePrice} className={styles.matrixRow} role="row">
+              <div className={styles.rowHeader} role="rowheader">{formatCurrency(salePrice)}</div>
+              {purchasePrices.map((purchasePrice, purchaseIndex) => {
+                const key = `${salePrice}-${purchasePrice}`;
+                const calculation = tableData[saleIndex]?.[purchaseIndex] || { totalMonthlyPayment: 0 };
+                
+                return (
+                  <div 
+                    key={key} 
+                    className={`${styles.matrixCell} ${getCellClass(calculation.totalMonthlyPayment)}`}
+                    role="cell"
+                  >
+                    {formatCurrency(calculation.totalMonthlyPayment)}
+                  </div>
+                );
+              })}
+            </div>
+          ))}
+        </div>
       </div>
       
       <div className={styles.legend} role="complementary" aria-label="Matrix Legend">
