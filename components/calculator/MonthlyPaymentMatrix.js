@@ -9,14 +9,12 @@ import { confidenceLevels } from '../../utils/constants';
  * based on different sale prices and purchase prices
  * @param {Object} props - Component properties
  * @param {Array} props.tableData - 2D array of calculation results
- * @param {Object} props.tableConfig - Configuration for the table
  * @param {number} props.targetMonthlyPayment - Target monthly payment amount
  * @param {Object} props.mainSliders - Object containing current slider values
  * @returns {JSX.Element} - Monthly payment matrix component
  */
 const MonthlyPaymentMatrix = ({ 
   tableData = [], 
-  tableConfig = { saleRange: 6, purchaseRange: 6 },
   targetMonthlyPayment = 3000,
   mainSliders = { 
     sale: { value: 500000, confidence: 'Likely' }, 
@@ -37,22 +35,18 @@ const MonthlyPaymentMatrix = ({
     return styles.insufficient;
   };
 
-  // Generate arrays for row and column headers using confidence levels
-  const saleRange = tableConfig.saleRange || 6;
-  const purchaseRange = tableConfig.purchaseRange || 6;
-
   // Generate sale prices for rows using confidence level
   const { prices: salePrices } = generatePriceRange(
     mainSliders.sale.value,
     confidenceLevels[mainSliders.sale.confidence],
-    saleRange
+    5 // Fixed number of rows
   );
 
   // Generate purchase prices for columns using confidence level
   const { prices: purchasePrices } = generatePriceRange(
     mainSliders.purchase.value,
     confidenceLevels[mainSliders.purchase.confidence],
-    purchaseRange
+    5 // Fixed number of columns
   );
 
   return (
