@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from '../../styles/UnifiedCalculator.module.css';
+import { formatCurrency } from '../../utils/formatters';
 import Slider from '../ui/Slider';
 import ExpandableSection from '../ui/ExpandableSection';
 
@@ -22,17 +23,21 @@ const PayoffSection = ({
 }) => {
   return (
     <div className={styles.sliderSection}>
-      <h2>Payoff Amount</h2>
-      <Slider 
-        label="Total Payoff Amount"
-        value={mainSliders.payoff.value}
-        min={0}
-        max={1000000}
-        step={10000}
-        onChange={(e) => onMainSliderChange('payoff', e.target.value)}
-        disabled={mainSliders.payoff.expanded}
-        infoText={mainSliders.payoff.expanded ? "Total is calculated from the detailed payoff components below" : null}
-      />
+      <div className={styles.sliderGroup}>
+        <div className={styles.sliderLabel}>
+          <span>Payoff Amount</span>
+          <span className={styles.sliderValue}>{formatCurrency(mainSliders.payoff.value)}</span>
+        </div>
+        <input
+          type="range"
+          min="0"
+          max="1000000"
+          step="10000"
+          value={mainSliders.payoff.value}
+          onChange={(e) => onMainSliderChange('payoff', Number(e.target.value))}
+          className={styles.slider}
+        />
+      </div>
       
       <ExpandableSection 
         title="Detailed Payoff"

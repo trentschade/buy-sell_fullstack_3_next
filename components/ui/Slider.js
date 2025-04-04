@@ -36,7 +36,7 @@ const Slider = ({
 
   return (
     <div className={styles.sliderGroup}>
-      <label>
+      <label className={styles.sliderLabel}>
         <span>{label}</span>
         <span>{formattedValue}</span>
       </label>

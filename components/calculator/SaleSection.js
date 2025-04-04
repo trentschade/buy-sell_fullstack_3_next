@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from '../../styles/UnifiedCalculator.module.css';
+import { formatCurrency } from '../../utils/formatters';
 import Slider from '../ui/Slider';
 import ConfidenceSelector from '../ui/ConfidenceSelector';
 import ExpandableSection from '../ui/ExpandableSection';
@@ -27,15 +28,21 @@ const SaleSection = ({
 }) => {
   return (
     <div className={styles.sliderSection}>
-      <h2>Sale Price</h2>
-      <Slider 
-        label="Estimated Sale Price"
-        value={mainSliders.sale.value}
-        min={100000}
-        max={2000000}
-        step={10000}
-        onChange={(e) => onMainSliderChange('sale', e.target.value)}
-      />
+      <div className={styles.sliderGroup}>
+        <div className={styles.sliderLabel}>
+          <span>Sale Price</span>
+          <span className={styles.sliderValue}>{formatCurrency(mainSliders.sale.value)}</span>
+        </div>
+        <input
+          type="range"
+          min="0"
+          max="2000000"
+          step="10000"
+          value={mainSliders.sale.value}
+          onChange={(e) => onMainSliderChange('sale', Number(e.target.value))}
+          className={styles.slider}
+        />
+      </div>
       
       <ConfidenceSelector 
         confidenceLevels={confidenceLevels}
@@ -129,7 +136,7 @@ const SaleSection = ({
           max={5000}
           step={100}
           onChange={(e) => onDetailChange('sale', 'marketingCosts', e.target.value)}
-            />
+        />
       </ExpandableSection>
     </div>
   );

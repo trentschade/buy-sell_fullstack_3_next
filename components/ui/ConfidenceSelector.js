@@ -12,7 +12,7 @@ import styles from '../../styles/UnifiedCalculator.module.css';
 const ConfidenceSelector = ({ confidenceLevels, activeLevel, onChange }) => {
   return (
     <div className={styles.confidenceSelector}>
-      <span>Confidence Level:</span>
+      <span className={styles.confidenceLabel}>Confidence?</span>
       <div className={styles.confidenceButtons}>
         {Object.keys(confidenceLevels).map(level => (
           <button

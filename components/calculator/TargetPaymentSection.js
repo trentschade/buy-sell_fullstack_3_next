@@ -1,38 +1,36 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from '../../styles/UnifiedCalculator.module.css';
-import Slider from '../ui/Slider';
-import ExpandableSection from '../ui/ExpandableSection';
+import { formatCurrency } from '../../utils/formatters';
 
 /**
- * Target payment section component for setting the target monthly payment
+ * TargetPaymentSection component
+ * Allows users to set their target monthly payment
  * @param {Object} props - Component properties
- * @param {number} props.targetMonthlyPayment - Target monthly payment value
- * @param {Function} props.onTargetPaymentChange - Function to handle target payment changes
- * @param {Object} props.targetPaymentDetails - Object containing target payment details
+ * @param {number} props.targetMonthlyPayment - Current target monthly payment
+ * @param {Function} props.onTargetPaymentChange - Handler for target payment changes
  * @returns {JSX.Element} - Target payment section component
  */
 const TargetPaymentSection = ({ 
-  targetMonthlyPayment,
-  onTargetPaymentChange,
-  targetPaymentDetails = {
-    targetMortgage: 2000,
-    targetPropertyTax: 500,
-    targetInsurance: 100,
-    targetHOA: 300
-  },
+  targetMonthlyPayment = 3000, 
+  onTargetPaymentChange = () => {} 
 }) => {
-
   return (
-    <div className={styles.sliderSection}>
-      <h2>Target Monthly Payment</h2>
-      <Slider 
-        label="Target Monthly Payment"
-        value={targetMonthlyPayment}
-        min={0}
-        max={10000}
-        step={100}
-        onChange={onTargetPaymentChange}
-      />
+    <div className={styles.targetPaymentSection}>
+      <div className={styles.sliderGroup}>
+        <div className={styles.sliderLabel}>
+          <span>Target Monthly Payment</span>
+          <span className={styles.sliderValue}>{formatCurrency(targetMonthlyPayment)}</span>
+        </div>
+        <input
+          type="range"
+          min="0"
+          max="10000"
+          step="100"
+          value={targetMonthlyPayment}
+          onChange={(e) => onTargetPaymentChange(Number(e.target.value))}
+          className={styles.slider}
+        />
+      </div>
     </div>
   );
 };
