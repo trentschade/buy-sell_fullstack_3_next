@@ -11,8 +11,8 @@ import ExpandableSection from '../ui/ExpandableSection';
  * @param {Object} props.saleDetails - Object containing sale details
  * @param {Object} props.confidenceLevels - Object containing confidence levels
  * @param {Function} props.onMainSliderChange - Function to handle main slider changes
- * @param {Function} props.handleConfidenceChange - Function to handle confidence level changes
- * @param {Function} props.handleDetailChange - Function to handle detail changes
+ * @param {Function} props.onConfidenceChange - Function to handle confidence level changes
+ * @param {Function} props.onDetailChange - Function to handle detail changes
  * @param {Function} props.toggleExpanded - Function to toggle expanded view
  * @returns {JSX.Element} - Sale section component
  */
@@ -21,8 +21,8 @@ const SaleSection = ({
   saleDetails, 
   confidenceLevels, 
   onMainSliderChange, 
-  handleConfidenceChange, 
-  handleDetailChange, 
+  onConfidenceChange, 
+  onDetailChange, 
   toggleExpanded 
 }) => {
   return (
@@ -40,7 +40,7 @@ const SaleSection = ({
       <ConfidenceSelector 
         confidenceLevels={confidenceLevels}
         activeLevel={mainSliders.sale.confidence}
-        onChange={(level) => handleConfidenceChange('sale', level)}
+        onChange={(level) => onConfidenceChange('sale', level)}
       />
       
       <ExpandableSection 
@@ -55,7 +55,7 @@ const SaleSection = ({
           max={10}
           step={0.5}
           format="percentage"
-          onChange={(e) => handleDetailChange('sale', 'agentCommission', e.target.value)}
+          onChange={(e) => onDetailChange('sale', 'agentCommission', e.target.value)}
         />
         
         <Slider 
@@ -64,7 +64,7 @@ const SaleSection = ({
           min={0}
           max={5000}
           step={100}
-          onChange={(e) => handleDetailChange('sale', 'titleAndEscrow', e.target.value)}
+          onChange={(e) => onDe('sale', 'titleAndEscrow', e.target.value)}
         />
         
         <Slider 
@@ -74,7 +74,7 @@ const SaleSection = ({
           max={3}
           step={0.1}
           format="percentage"
-          onChange={(e) => handleDetailChange('sale', 'transferTax', e.target.value)}
+          onChange={(e) => onDe('sale', 'transferTax', e.target.value)}
         />
         
         <Slider 
@@ -83,7 +83,7 @@ const SaleSection = ({
           min={0}
           max={2000}
           step={100}
-          onChange={(e) => handleDetailChange('sale', 'homeWarranty', e.target.value)}
+          onChange={(e) => onDe('sale', 'homeWarranty', e.target.value)}
         />
         
         <Slider 
@@ -92,7 +92,7 @@ const SaleSection = ({
           min={0}
           max={20000}
           step={500}
-          onChange={(e) => handleDetailChange('sale', 'preSaleRepairs', e.target.value)}
+          onChange={(e) => onDe('sale', 'preSaleRepairs', e.target.value)}
         />
         
         <Slider 
@@ -101,7 +101,7 @@ const SaleSection = ({
           min={0}
           max={5000}
           step={100}
-          onChange={(e) => handleDetailChange('sale', 'stagingCosts', e.target.value)}
+          onChange={(e) => onDe('sale', 'stagingCosts', e.target.value)}
         />
         
         <Slider 
@@ -110,7 +110,7 @@ const SaleSection = ({
           min={0}
           max={2000}
           step={100}
-          onChange={(e) => handleDetailChange('sale', 'professionalCleaning', e.target.value)}
+          onChange={(e) => onDe('sale', 'professionalCleaning', e.target.value)}
         />
         
         <Slider 
@@ -119,7 +119,7 @@ const SaleSection = ({
           min={0}
           max={2000}
           step={100}
-          onChange={(e) => handleDetailChange('sale', 'photography', e.target.value)}
+          onChange={(e) => onDe('sale', 'photography', e.target.value)}
         />
         
         <Slider 
@@ -128,7 +128,7 @@ const SaleSection = ({
           min={0}
           max={5000}
           step={100}
-          onChange={(e) => handleDetailChange('sale', 'marketingCosts', e.target.value)}
+          onChange={(e) => onDe('sale', 'marketingCosts', e.target.value)}
         />
       </ExpandableSection>
     </div>

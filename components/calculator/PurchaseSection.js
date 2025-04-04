@@ -11,8 +11,8 @@ import ExpandableSection from '../ui/ExpandableSection';
  * @param {Object} props.purchaseDetails - Object containing purchase details
  * @param {Object} props.confidenceLevels - Object containing confidence levels
  * @param {Function} props.onMainSliderChange - Function to handle main slider changes
- * @param {Function} props.handleConfidenceChange - Function to handle confidence level changes
- * @param {Function} props.handleDetailChange - Function to handle detail changes
+ * @param {Function} props.onConfidenceChange - Function to handle confidence level changes
+ * @param {Function} props.onDetailChange - Function to handle detail changes
  * @param {Function} props.toggleExpanded - Function to toggle expanded view
  * @returns {JSX.Element} - Purchase section component
  */
@@ -21,8 +21,8 @@ const PurchaseSection = ({
   purchaseDetails, 
   confidenceLevels, 
   onMainSliderChange, 
-  handleConfidenceChange, 
-  handleDetailChange, 
+  onConfidenceChange, 
+  onDetailChange, 
   toggleExpanded 
 }) => {
   return (
@@ -40,7 +40,7 @@ const PurchaseSection = ({
       <ConfidenceSelector 
         confidenceLevels={confidenceLevels}
         activeLevel={mainSliders.purchase.confidence}
-        onChange={(level) => handleConfidenceChange('purchase', level)}
+        onChange={(level) => onConfidenceChange('purchase', level)}
       />
       
       <ExpandableSection 
@@ -55,7 +55,7 @@ const PurchaseSection = ({
           max={50}
           step={1}
           format="percentage"
-          onChange={(e) => handleDetailChange('purchase', 'downPayment', e.target.value)}
+          onChange={(e) => onDetailChange('purchase', 'downPayment', e.target.value)}
         />
         
         <Slider 
@@ -65,7 +65,7 @@ const PurchaseSection = ({
           max={15}
           step={0.125}
           format="percentage"
-          onChange={(e) => handleDetailChange('purchase', 'interestRate', e.target.value)}
+          onChange={(e) => onDetailChange('purchase', 'interestRate', e.target.value)}
         />
         
         <Slider 
@@ -74,7 +74,7 @@ const PurchaseSection = ({
           min={5}
           max={30}
           step={5}
-          onChange={(e) => handleDetailChange('purchase', 'loanTerm', e.target.value)}
+          onChange={(e) => onDetailChange('purchase', 'loanTerm', e.target.value)}
         />
         
         <Slider 
@@ -84,7 +84,7 @@ const PurchaseSection = ({
           max={3}
           step={0.1}
           format="percentage"
-          onChange={(e) => handleDetailChange('purchase', 'propertyTaxRate', e.target.value)}
+          onChange={(e) => onDetailChange('purchase', 'propertyTaxRate', e.target.value)}
         />
         
         <Slider 
@@ -93,7 +93,7 @@ const PurchaseSection = ({
           min={0}
           max={1000}
           step={50}
-          onChange={(e) => handleDetailChange('purchase', 'hoaCost', e.target.value)}
+          onChange={(e) => onDetailChange('purchase', 'hoaCost', e.target.value)}
         />
         
         <Slider 
@@ -102,7 +102,7 @@ const PurchaseSection = ({
           min={0}
           max={5000}
           step={100}
-          onChange={(e) => handleDetailChange('purchase', 'insuranceCost', e.target.value)}
+          onChange={(e) => onDetailChange('purchase', 'insuranceCost', e.target.value)}
         />
       </ExpandableSection>
     </div>

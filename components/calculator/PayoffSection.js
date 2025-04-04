@@ -9,7 +9,7 @@ import ExpandableSection from '../ui/ExpandableSection';
  * @param {Object} props.mainSliders - Object containing main slider values
  * @param {Object} props.payoffDetails - Object containing payoff details
  * @param {Function} props.onMainSliderChange - Function to handle main slider changes
- * @param {Function} props.handleDetailChange - Function to handle detail changes
+ * @param {Function} props.onDetailChange - Function to handle detail changes
  * @param {Function} props.toggleExpanded - Function to toggle expanded view
  * @returns {JSX.Element} - Payoff section component
  */
@@ -17,7 +17,7 @@ const PayoffSection = ({
   mainSliders, 
   payoffDetails, 
   onMainSliderChange, 
-  handleDetailChange, 
+  onDetailChange, 
   toggleExpanded 
 }) => {
   return (
@@ -45,7 +45,7 @@ const PayoffSection = ({
           min={0}
           max={1000000}
           step={10000}
-          onChange={(e) => handleDetailChange('payoff', 'firstMortgage', e.target.value)}
+          onChange={(e) => onDetailChange('payoff', 'firstMortgage', e.target.value)}
         />
         
         <Slider 
@@ -54,7 +54,7 @@ const PayoffSection = ({
           min={0}
           max={200000}
           step={5000}
-          onChange={(e) => handleDetailChange('payoff', 'secondMortgage', e.target.value)}
+          onChange={(e) => onDetailChange('payoff', 'secondMortgage', e.target.value)}
         />
         
         <Slider 
@@ -63,7 +63,7 @@ const PayoffSection = ({
           min={0}
           max={200000}
           step={5000}
-          onChange={(e) => handleDetailChange('payoff', 'heloc', e.target.value)}
+          onChange={(e) => onDetailChange('payoff', 'heloc', e.target.value)}
         />
         
         <Slider 
@@ -72,7 +72,7 @@ const PayoffSection = ({
           min={0}
           max={300000}
           step={10000}
-          onChange={(e) => handleDetailChange('payoff', 'otherPayments', e.target.value)}
+          onChange={(e) => onDetailChange('payoff', 'otherPayments', e.target.value)}
         />
       </ExpandableSection>
     </div>
