@@ -201,15 +201,18 @@
 
 /* Matrix styles */
 .matrixSection {
-  margin-top: 2rem;
+  margin: 2rem auto;
   overflow-x: auto;
+  max-width: 1200px;
+  padding: 0 2rem;
 }
 
 .matrixSection h2 {
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   font-weight: 600;
   color: #333;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
 }
 
 .matrixContainer {
@@ -352,4 +355,23 @@
 .matrixHeader .headerCell:nth-child(4).insufficient,
 .matrixRow .matrixCell:nth-child(4).insufficient {
   background-color: #fecaca;
+}
+
+.targetPaymentSection {
+  max-width: 1200px;
+  margin: 0 auto 2rem;
+  padding: 0 2rem;
+  text-align: center;
+}
+
+.targetPaymentSection h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+.targetPaymentSlider {
+  max-width: 600px;
+  margin: 0 auto;
 } 

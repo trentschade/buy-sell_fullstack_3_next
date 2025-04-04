@@ -6,10 +6,7 @@ import PayoffSection from '../components/calculator/PayoffSection';
 import PurchaseSection from '../components/calculator/PurchaseSection';
 import TargetPaymentSection from '../components/calculator/TargetPaymentSection';
 import MonthlyPaymentMatrix from '../components/calculator/MonthlyPaymentMatrix';
-import FloatingDashboard from '../components/calculator/FloatingDashboard';
-import ResultsSection from '../components/calculator/ResultsSection';
-import { formatCurrency } from '../utils/formatters';
-import styles from '../styles/OriginalUnifiedCalculator.module.css';
+import styles from '../styles/UnifiedCalculator.module.css';
 
 /**
  * UnifiedCalculator component
@@ -23,7 +20,6 @@ const UnifiedCalculator = () => {
     payoffDetails,
     purchaseDetails,
     confidenceLevels,
-    tableConfig,
     results,
     toggleExpanded,
     handleMainSliderChange,
@@ -40,12 +36,21 @@ const UnifiedCalculator = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <header className={styles.header}>
-        <h1 className={styles.title}>Buy-Sell Calculator</h1>
-        <p className={styles.description}>
-          Calculate your net proceeds, loan amount, and monthly payments for buying and selling properties.
-        </p>
-      </header>
+      <div className={styles.header}>
+        <h1>Unified Calculator</h1>
+        <p>Calculate your monthly payments and analyze different scenarios for selling and buying a home.</p>
+      </div>
+
+      <MonthlyPaymentMatrix
+        tableData={results.tableData}
+        targetMonthlyPayment={targetMonthlyPayment}
+        mainSliders={mainSliders}
+      />
+
+      <TargetPaymentSection
+        targetMonthlyPayment={targetMonthlyPayment}
+        onTargetPaymentChange={handleTargetPaymentChange}
+      />
 
       <div className={styles.mainContent}>
         <div className={styles.calculatorSection}>
@@ -75,32 +80,6 @@ const UnifiedCalculator = () => {
             onConfidenceChange={handleConfidenceChange}
             onDetailChange={handleDetailChange}
             onToggleExpanded={toggleExpanded}
-          />
-
-          <TargetPaymentSection
-            targetMonthlyPayment={targetMonthlyPayment}
-            onTargetPaymentChange={handleTargetPaymentChange}
-          />
-
-        </div>
-        <div>
-          <MonthlyPaymentMatrix
-            tableData={results.tableData}
-            tableConfig={tableConfig}
-            targetMonthlyPayment={targetMonthlyPayment}
-            mainSliders={mainSliders}
-          />
-        </div>
-
-        <div className={styles.resultsSection}>
-          <FloatingDashboard
-            results={results}
-            targetMonthlyPayment={targetMonthlyPayment}
-          />
-          
-          <ResultsSection
-            results={results}
-            targetMonthlyPayment={targetMonthlyPayment}
           />
         </div>
       </div>
