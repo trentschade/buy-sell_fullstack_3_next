@@ -81,6 +81,7 @@ const PurchaseSection = ({
           min={5}
           max={30}
           step={5}
+          format="years"
           onChange={(e) => onDetailChange('purchase', 'loanTerm', e.target.value)}
         />
         
