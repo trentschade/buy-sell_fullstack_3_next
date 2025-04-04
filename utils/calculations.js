@@ -205,6 +205,12 @@ export const calculateTableData = (
   payoffDetails, 
   purchaseDetails
 ) => {
+  // Calculate total payoff amount
+  const totalPayoff = payoffDetails.firstMortgage + 
+                     payoffDetails.secondMortgage + 
+                     payoffDetails.heloc + 
+                     payoffDetails.otherPayments;
+
   return salePrices.map(salePrice => {
     return purchasePrices.map(purchasePrice => {
       // Calculate total selling costs
@@ -213,11 +219,15 @@ export const calculateTableData = (
       // Calculate net proceeds
       const netProceeds = salePrice - totalSellingCosts;
       
-      // Calculate net at closing
-      const netAtClosing = calculateNetAtClosing(netProceeds, payoffDetails.firstMortgage);
+      // Calculate net at closing (money available for down payment)
+      const netAtClosing = calculateNetAtClosing(netProceeds, totalPayoff);
       
-      // Calculate loan amount
-      const loanAmount = calculateLoanAmount(purchasePrice, purchaseDetails.downPayment);
+      // Calculate effective down payment (minimum of available funds or required down payment)
+      const requiredDownPayment = (purchasePrice * purchaseDetails.downPayment) / 100;
+      const effectiveDownPayment = Math.min(netAtClosing, requiredDownPayment);
+      
+      // Calculate loan amount based on effective down payment
+      const loanAmount = purchasePrice - effectiveDownPayment;
       
       // Calculate monthly mortgage
       const monthlyMortgage = calculateMonthlyMortgage(
@@ -243,6 +253,7 @@ export const calculateTableData = (
         purchasePrice,
         netProceeds,
         netAtClosing,
+        effectiveDownPayment,
         loanAmount,
         monthlyMortgage,
         monthlyPropertyTax,
