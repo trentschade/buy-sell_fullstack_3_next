@@ -85,10 +85,11 @@ const UnifiedCalculator = () => {
         </div>
         <div>
           <MonthlyPaymentMatrix
-              tableData={results.tableData}
-              tableConfig={tableConfig}
-              targetMonthlyPayment={targetMonthlyPayment}
-            />
+            tableData={results.tableData}
+            tableConfig={tableConfig}
+            targetMonthlyPayment={targetMonthlyPayment}
+            mainSliders={mainSliders}
+          />
         </div>
 
         <div className={styles.resultsSection}>

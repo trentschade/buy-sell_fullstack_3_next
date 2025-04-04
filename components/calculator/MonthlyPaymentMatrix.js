@@ -9,12 +9,14 @@ import { formatCurrency } from '../../utils/formatters';
  * @param {Array} props.tableData - 2D array of calculation results
  * @param {Object} props.tableConfig - Configuration for the table
  * @param {number} props.targetMonthlyPayment - Target monthly payment amount
+ * @param {Object} props.mainSliders - Object containing current slider values
  * @returns {JSX.Element} - Monthly payment matrix component
  */
 const MonthlyPaymentMatrix = ({ 
   tableData = [], 
   tableConfig = { saleRange: 6, purchaseRange: 6 },
-  targetMonthlyPayment = 3000
+  targetMonthlyPayment = 3000,
+  mainSliders = { sale: { value: 500000 }, purchase: { value: 600000 } }
 }) => {
   /**
    * Get the CSS class for a cell based on the monthly payment value
@@ -36,18 +38,18 @@ const MonthlyPaymentMatrix = ({
   const saleStep = tableConfig.saleStep || 25000;
   const purchaseStep = tableConfig.purchaseStep || 25000;
 
-  // Generate purchase prices for columns
+  // Generate purchase prices for columns using current purchase price as base
   const purchasePrices = Array.from({ length: purchaseRange }, (_, i) => {
     const middleIndex = Math.floor(purchaseRange / 2);
     const offset = (i - middleIndex) * purchaseStep;
-    return 600000 + offset; // Base price of 600,000
+    return mainSliders.purchase.value + offset;
   });
 
-  // Generate sale prices for rows
+  // Generate sale prices for rows using current sale price as base
   const salePrices = Array.from({ length: saleRange }, (_, i) => {
     const middleIndex = Math.floor(saleRange / 2);
     const offset = (i - middleIndex) * saleStep;
-    return 500000 + offset; // Base price of 500,000
+    return mainSliders.sale.value + offset;
   });
 
   return (
