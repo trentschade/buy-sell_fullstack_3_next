@@ -53,6 +53,15 @@ const MonthlyPaymentMatrix = ({
     <div className={styles.matrixSection}>
       <h2>Monthly Payment Matrix</h2>
       <div className={styles.matrixContainer} role="table" aria-label="Monthly Payment Matrix">
+        {/* Purchase Price header row */}
+        <div className={styles.matrixHeader} role="row">
+          <div className={styles.headerCell} role="columnheader"></div>
+          <div className={`${styles.headerCell} ${styles.mergedHeader}`} role="columnheader" aria-colspan="5">
+            Purchase Price
+          </div>
+        </div>
+
+        {/* Price values row */}
         <div className={styles.matrixHeader} role="row">
           <div className={styles.headerCell} role="columnheader">Sale Price</div>
           {purchasePrices.map((price) => (
