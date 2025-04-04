@@ -8,7 +8,7 @@ import ExpandableSection from '../ui/ExpandableSection';
  * @param {Object} props - Component properties
  * @param {Object} props.mainSliders - Object containing main slider values
  * @param {Object} props.payoffDetails - Object containing payoff details
- * @param {Function} props.handleMainSliderChange - Function to handle main slider changes
+ * @param {Function} props.onMainSliderChange - Function to handle main slider changes
  * @param {Function} props.handleDetailChange - Function to handle detail changes
  * @param {Function} props.toggleExpanded - Function to toggle expanded view
  * @returns {JSX.Element} - Payoff section component
@@ -16,7 +16,7 @@ import ExpandableSection from '../ui/ExpandableSection';
 const PayoffSection = ({ 
   mainSliders, 
   payoffDetails, 
-  handleMainSliderChange, 
+  onMainSliderChange, 
   handleDetailChange, 
   toggleExpanded 
 }) => {

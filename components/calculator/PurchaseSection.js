@@ -10,7 +10,7 @@ import ExpandableSection from '../ui/ExpandableSection';
  * @param {Object} props.mainSliders - Object containing main slider values
  * @param {Object} props.purchaseDetails - Object containing purchase details
  * @param {Object} props.confidenceLevels - Object containing confidence levels
- * @param {Function} props.handleMainSliderChange - Function to handle main slider changes
+ * @param {Function} props.onMainSliderChange - Function to handle main slider changes
  * @param {Function} props.handleConfidenceChange - Function to handle confidence level changes
  * @param {Function} props.handleDetailChange - Function to handle detail changes
  * @param {Function} props.toggleExpanded - Function to toggle expanded view
@@ -20,7 +20,7 @@ const PurchaseSection = ({
   mainSliders, 
   purchaseDetails, 
   confidenceLevels, 
-  handleMainSliderChange, 
+  onMainSliderChange, 
   handleConfidenceChange, 
   handleDetailChange, 
   toggleExpanded 
