@@ -168,8 +168,8 @@ export const useCalculator = () => {
   };
 
   // Handle target monthly payment change
-  const handleTargetPaymentChange = (e) => {
-    setTargetMonthlyPayment(parseInt(e.target.value));
+  const handleTargetPaymentChange = (value) => {
+    setTargetMonthlyPayment(value);
   };
 
   // Initialize the main payoff slider value based on the sum of payoff details

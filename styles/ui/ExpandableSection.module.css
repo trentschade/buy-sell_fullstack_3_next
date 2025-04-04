@@ -1,5 +1,8 @@
 .expandableSection {
   margin-top: 1rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .expandButton {

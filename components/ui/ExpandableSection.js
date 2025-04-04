@@ -12,7 +12,7 @@ import styles from '../../styles/UnifiedCalculator.module.css';
  */
 const ExpandableSection = ({ title, isExpanded, onToggle, children }) => {
   return (
-    <div>
+    <div className={styles.expandableSection}>
       <button 
         className={styles.expandButton}
         onClick={onToggle}
