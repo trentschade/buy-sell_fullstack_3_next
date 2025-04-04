@@ -29,7 +29,7 @@ const PayoffSection = ({
         min={0}
         max={1000000}
         step={10000}
-        onChange={(e) => handleMainSliderChange('payoff', e.target.value)}
+        onChange={(e) => onMainSliderChange('payoff', e.target.value)}
         disabled={mainSliders.payoff.expanded}
         infoText={mainSliders.payoff.expanded ? "Total is calculated from the detailed payoff components below" : null}
       />

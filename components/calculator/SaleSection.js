@@ -10,7 +10,7 @@ import ExpandableSection from '../ui/ExpandableSection';
  * @param {Object} props.mainSliders - Object containing main slider values
  * @param {Object} props.saleDetails - Object containing sale details
  * @param {Object} props.confidenceLevels - Object containing confidence levels
- * @param {Function} props.handleMainSliderChange - Function to handle main slider changes
+ * @param {Function} props.onMainSliderChange - Function to handle main slider changes
  * @param {Function} props.handleConfidenceChange - Function to handle confidence level changes
  * @param {Function} props.handleDetailChange - Function to handle detail changes
  * @param {Function} props.toggleExpanded - Function to toggle expanded view
@@ -20,7 +20,7 @@ const SaleSection = ({
   mainSliders, 
   saleDetails, 
   confidenceLevels, 
-  handleMainSliderChange, 
+  onMainSliderChange, 
   handleConfidenceChange, 
   handleDetailChange, 
   toggleExpanded 
@@ -34,7 +34,7 @@ const SaleSection = ({
         min={100000}
         max={2000000}
         step={10000}
-        onChange={(e) => handleMainSliderChange('sale', e.target.value)}
+        onChange={(e) => onMainSliderChange('sale', e.target.value)}
       />
       
       <ConfidenceSelector 

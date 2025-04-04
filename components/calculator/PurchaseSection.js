@@ -34,7 +34,7 @@ const PurchaseSection = ({
         min={100000}
         max={2000000}
         step={10000}
-        onChange={(e) => handleMainSliderChange('purchase', e.target.value)}
+        onChange={(e) => onMainSliderChange('purchase', e.target.value)}
       />
       
       <ConfidenceSelector 
