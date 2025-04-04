@@ -24,15 +24,27 @@ const MonthlyPaymentMatrix = ({
   /**
    * Get the CSS class for a cell based on the monthly payment value
    * @param {number} value - The monthly payment value
+   * @param {boolean} isDownPaymentSufficient - Whether the down payment is sufficient
    * @returns {string} - CSS class name
    */
-  const getCellClass = (value) => {
+  const getCellClass = (value, isDownPaymentSufficient) => {
+    if (!isDownPaymentSufficient) {
+      return styles.insufficient;
+    }
     if (value <= targetMonthlyPayment) {
       return styles.sufficient;
     } else if (value <= targetMonthlyPayment * 1.1) {
       return styles.warning;
     }
     return styles.insufficient;
+  };
+
+  const formatCellContent = (calculation) => {
+    if (!calculation.isDownPaymentSufficient) {
+      const availablePercentage = Math.floor(calculation.availableDownPaymentPercentage * 100);
+      return `${formatCurrency(calculation.totalMonthlyPayment)} (${availablePercentage}% down)`;
+    }
+    return formatCurrency(calculation.totalMonthlyPayment);
   };
 
   // Generate sale prices for rows using confidence level
@@ -83,15 +95,19 @@ const MonthlyPaymentMatrix = ({
               <div className={styles.rowHeader} role="rowheader">{formatCurrency(salePrice)}</div>
               {purchasePrices.map((purchasePrice, purchaseIndex) => {
                 const key = `${salePrice}-${purchasePrice}`;
-                const calculation = tableData[saleIndex]?.[purchaseIndex] || { totalMonthlyPayment: 0 };
+                const calculation = tableData[saleIndex]?.[purchaseIndex] || { 
+                  totalMonthlyPayment: 0,
+                  isDownPaymentSufficient: false,
+                  availableDownPaymentPercentage: 0
+                };
                 
                 return (
                   <div 
                     key={key} 
-                    className={`${styles.matrixCell} ${getCellClass(calculation.totalMonthlyPayment)}`}
+                    className={`${styles.matrixCell} ${getCellClass(calculation.totalMonthlyPayment, calculation.isDownPaymentSufficient)}`}
                     role="cell"
                   >
-                    {formatCurrency(calculation.totalMonthlyPayment)}
+                    {formatCellContent(calculation)}
                   </div>
                 );
               })}
@@ -111,7 +127,7 @@ const MonthlyPaymentMatrix = ({
         </div>
         <div className={styles.legendItem}>
           <div className={`${styles.legendColor} ${styles.insufficient}`} role="presentation"></div>
-          <span>Exceeds Target by {'>'}10%</span>
+          <span>Exceeds Target or Insufficient Down Payment</span>
         </div>
       </div>
     </div>

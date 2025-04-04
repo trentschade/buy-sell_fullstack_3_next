@@ -222,8 +222,13 @@ export const calculateTableData = (
       // Calculate net at closing (money available for down payment)
       const netAtClosing = calculateNetAtClosing(netProceeds, totalPayoff);
       
+      // Calculate required and available down payment percentages
+      const requiredDownPaymentPercentage = purchaseDetails.downPayment;
+      const availableDownPaymentPercentage = netAtClosing / purchasePrice;
+      const isDownPaymentSufficient = availableDownPaymentPercentage >= (requiredDownPaymentPercentage / 100);
+      
       // Calculate effective down payment (minimum of available funds or required down payment)
-      const requiredDownPayment = (purchasePrice * purchaseDetails.downPayment) / 100;
+      const requiredDownPayment = (purchasePrice * requiredDownPaymentPercentage) / 100;
       const effectiveDownPayment = Math.min(netAtClosing, requiredDownPayment);
       
       // Calculate loan amount based on effective down payment
@@ -253,13 +258,14 @@ export const calculateTableData = (
         purchasePrice,
         netProceeds,
         netAtClosing,
-        effectiveDownPayment,
         loanAmount,
         monthlyMortgage,
         monthlyPropertyTax,
         monthlyInsurance,
         monthlyHOA,
-        totalMonthlyPayment
+        totalMonthlyPayment,
+        isDownPaymentSufficient,
+        availableDownPaymentPercentage
       };
     });
   });
