@@ -49,19 +49,19 @@ const MonthlyPaymentMatrix = ({
   return (
     <div className={styles.matrixSection}>
       <h2>Monthly Payment Matrix</h2>
-      <div className={styles.matrixContainer}>
-        <div className={styles.matrixHeader}>
-          <div className={styles.headerCell}>Down Payment %</div>
+      <div className={styles.matrixContainer} role="table" aria-label="Monthly Payment Matrix">
+        <div className={styles.matrixHeader} role="row">
+          <div className={styles.headerCell} role="columnheader">Down Payment %</div>
           {purchasePrices.map((price) => (
-            <div key={price} className={styles.headerCell}>
+            <div key={price} className={styles.headerCell} role="columnheader">
               {formatCurrency(price)}
             </div>
           ))}
         </div>
         
         {downPayments.map((downPayment) => (
-          <div key={downPayment} className={styles.matrixRow}>
-            <div className={styles.rowHeader}>{downPayment}%</div>
+          <div key={downPayment} className={styles.matrixRow} role="row">
+            <div className={styles.rowHeader} role="rowheader">{downPayment}%</div>
             {purchasePrices.map((price) => {
               const key = `${price}-${downPayment}`;
               // Find the corresponding calculation in tableData
@@ -73,6 +73,7 @@ const MonthlyPaymentMatrix = ({
                 <div 
                   key={key} 
                   className={`${styles.matrixCell} ${getCellClass(calculation.totalMonthlyPayment)}`}
+                  role="cell"
                 >
                   {formatCurrency(calculation.totalMonthlyPayment)}
                 </div>
@@ -82,17 +83,17 @@ const MonthlyPaymentMatrix = ({
         ))}
       </div>
       
-      <div className={styles.legend}>
+      <div className={styles.legend} role="complementary" aria-label="Matrix Legend">
         <div className={styles.legendItem}>
-          <div className={`${styles.legendColor} ${styles.sufficient}`}></div>
+          <div className={`${styles.legendColor} ${styles.sufficient}`} role="presentation"></div>
           <span>Within Target</span>
         </div>
         <div className={styles.legendItem}>
-          <div className={`${styles.legendColor} ${styles.warning}`}></div>
+          <div className={`${styles.legendColor} ${styles.warning}`} role="presentation"></div>
           <span>Within 10% of Target</span>
         </div>
         <div className={styles.legendItem}>
-          <div className={`${styles.legendColor} ${styles.insufficient}`}></div>
+          <div className={`${styles.legendColor} ${styles.insufficient}`} role="presentation"></div>
           <span>Exceeds Target by {'>'}10%</span>
         </div>
       </div>
