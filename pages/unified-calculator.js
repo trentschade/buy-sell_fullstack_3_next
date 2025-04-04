@@ -52,7 +52,7 @@ const UnifiedCalculator = () => {
           <SaleSection
             mainSliders={mainSliders}
             saleDetails={saleDetails}
-            confidenceLevels={Object.keys(confidenceLevels)}
+            confidenceLevels={confidenceLevels}
             onMainSliderChange={handleMainSliderChange}
             onConfidenceChange={handleConfidenceChange}
             onDetailChange={handleDetailChange}
@@ -70,7 +70,7 @@ const UnifiedCalculator = () => {
           <PurchaseSection
             mainSliders={mainSliders}
             purchaseDetails={purchaseDetails}
-            confidenceLevels={Object.keys(confidenceLevels)}
+            confidenceLevels={confidenceLevels}
             onMainSliderChange={handleMainSliderChange}
             onConfidenceChange={handleConfidenceChange}
             onDetailChange={handleDetailChange}

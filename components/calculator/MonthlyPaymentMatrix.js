@@ -2,6 +2,7 @@ import React from 'react';
 import styles from '../../styles/UnifiedCalculator.module.css';
 import { formatCurrency } from '../../utils/formatters';
 import { generatePriceRange } from '../../utils/calculations';
+import { confidenceLevels } from '../../utils/constants';
 
 /**
  * Monthly payment matrix component that displays a grid of monthly payments
@@ -11,7 +12,6 @@ import { generatePriceRange } from '../../utils/calculations';
  * @param {Object} props.tableConfig - Configuration for the table
  * @param {number} props.targetMonthlyPayment - Target monthly payment amount
  * @param {Object} props.mainSliders - Object containing current slider values
- * @param {Object} props.confidenceLevels - Object containing confidence levels
  * @returns {JSX.Element} - Monthly payment matrix component
  */
 const MonthlyPaymentMatrix = ({ 
@@ -21,13 +21,6 @@ const MonthlyPaymentMatrix = ({
   mainSliders = { 
     sale: { value: 500000, confidence: 'Likely' }, 
     purchase: { value: 600000, confidence: 'Likely' } 
-  },
-  confidenceLevels = {
-    'Certain': 0.05,
-    'Confident': 0.10,
-    'Likely': 0.15,
-    'Possible': 0.25,
-    'No Idea': 0.40
   }
 }) => {
   /**

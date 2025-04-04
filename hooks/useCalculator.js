@@ -62,11 +62,11 @@ export const useCalculator = () => {
 
   // Confidence levels and their corresponding ranges
   const confidenceLevels = {
-    'Certain': 0.05,    // ±5%
+    'Certain': 0.01,    // ±1%
     'Confident': 0.10,  // ±10%
     'Likely': 0.15,     // ±15%
     'Possible': 0.25,   // ±25%
-    'No Idea': 0.40     // ±40%
+    'No Idea': 0.5     // ±50%
   };
 
   // Table configuration

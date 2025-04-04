@@ -104,3 +104,15 @@ export const PAYMENT_STATUS = {
  * Warning threshold for monthly payment (percentage above target)
  */
 export const PAYMENT_WARNING_THRESHOLD = 10; // 10% above target 
+
+/**
+ * Confidence levels for price ranges
+ * Each level represents the percentage range (±) around the target price
+ */
+export const confidenceLevels = {
+  'Certain': 0.01,    // ±1%
+  'Confident': 0.10,  // ±10%
+  'Likely': 0.15,     // ±15%
+  'Possible': 0.25,   // ±25%
+  'No Idea': 0.50     // ±50%
+}; 
