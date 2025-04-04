@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from '../../styles/UnifiedCalculator.module.css';
 import { formatCurrency } from '../../utils/formatters';
+import { generatePriceRange } from '../../utils/calculations';
 
 /**
  * Monthly payment matrix component that displays a grid of monthly payments
@@ -10,13 +11,24 @@ import { formatCurrency } from '../../utils/formatters';
  * @param {Object} props.tableConfig - Configuration for the table
  * @param {number} props.targetMonthlyPayment - Target monthly payment amount
  * @param {Object} props.mainSliders - Object containing current slider values
+ * @param {Object} props.confidenceLevels - Object containing confidence levels
  * @returns {JSX.Element} - Monthly payment matrix component
  */
 const MonthlyPaymentMatrix = ({ 
   tableData = [], 
   tableConfig = { saleRange: 6, purchaseRange: 6 },
   targetMonthlyPayment = 3000,
-  mainSliders = { sale: { value: 500000 }, purchase: { value: 600000 } }
+  mainSliders = { 
+    sale: { value: 500000, confidence: 'Likely' }, 
+    purchase: { value: 600000, confidence: 'Likely' } 
+  },
+  confidenceLevels = {
+    'Certain': 0.05,
+    'Confident': 0.10,
+    'Likely': 0.15,
+    'Possible': 0.25,
+    'No Idea': 0.40
+  }
 }) => {
   /**
    * Get the CSS class for a cell based on the monthly payment value
@@ -32,25 +44,23 @@ const MonthlyPaymentMatrix = ({
     return styles.insufficient;
   };
 
-  // Generate arrays for row and column headers
+  // Generate arrays for row and column headers using confidence levels
   const saleRange = tableConfig.saleRange || 6;
   const purchaseRange = tableConfig.purchaseRange || 6;
-  const saleStep = tableConfig.saleStep || 25000;
-  const purchaseStep = tableConfig.purchaseStep || 25000;
 
-  // Generate purchase prices for columns using current purchase price as base
-  const purchasePrices = Array.from({ length: purchaseRange }, (_, i) => {
-    const middleIndex = Math.floor(purchaseRange / 2);
-    const offset = (i - middleIndex) * purchaseStep;
-    return mainSliders.purchase.value + offset;
-  });
+  // Generate sale prices for rows using confidence level
+  const { prices: salePrices } = generatePriceRange(
+    mainSliders.sale.value,
+    confidenceLevels[mainSliders.sale.confidence],
+    saleRange
+  );
 
-  // Generate sale prices for rows using current sale price as base
-  const salePrices = Array.from({ length: saleRange }, (_, i) => {
-    const middleIndex = Math.floor(saleRange / 2);
-    const offset = (i - middleIndex) * saleStep;
-    return mainSliders.sale.value + offset;
-  });
+  // Generate purchase prices for columns using confidence level
+  const { prices: purchasePrices } = generatePriceRange(
+    mainSliders.purchase.value,
+    confidenceLevels[mainSliders.purchase.confidence],
+    purchaseRange
+  );
 
   return (
     <div className={styles.matrixSection}>
