@@ -249,6 +249,17 @@
   width: fit-content;
 }
 
+/* Style for empty corner cells */
+.matrixHeader:first-child .headerCell:nth-child(-n+2) {
+  background-color: #e2e8f0;
+  border: none;
+}
+
+.matrixHeader:nth-child(2) .headerCell:nth-child(-n+2) {
+  background-color: #e2e8f0;
+  border: none;
+}
+
 .matrixHeader {
   display: contents;
 }
