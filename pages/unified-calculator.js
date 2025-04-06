@@ -37,9 +37,8 @@ const UnifiedCalculator = () => {
       </Head>
 
       <div className={styles.header}>
-        <h1>Unified Calculator</h1>
-        <p>Calculate your monthly payments and analyze different scenarios for selling and buying a home.</p>
-      </div>
+        <h1>Buy-Sell Calculator</h1>
+        <p>Clarify the interaction between the sale and purchase of two properties.</p>      </div>
 
       <MonthlyPaymentMatrix
         tableData={results.tableData}

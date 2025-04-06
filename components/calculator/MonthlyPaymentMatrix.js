@@ -63,7 +63,7 @@ const MonthlyPaymentMatrix = ({
 
   return (
     <div className={styles.matrixSection}>
-      <h2>Monthly Payment Matrix</h2>
+      <h2>Buy-Sell Matrix</h2>
       <div className={styles.matrixContainer} role="table" aria-label="Monthly Payment Matrix">
         {/* Purchase Price header row */}
         <div className={styles.matrixHeader} role="row">
